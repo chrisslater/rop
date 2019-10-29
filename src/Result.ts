@@ -2,26 +2,52 @@ export enum ResultKind {
     Success = 'ResultSuccess',
     Error = 'ResultError',
   }
+
+interface MatchWith<Y, X, L> {
+  Success: (val: Y) => X
+  Error: (val: Y[]) => L
+}
   
   export interface ResultSuccess<SuccessValue> {
     kind: ResultKind.Success;
     value: SuccessValue;
+    getOrElse: () => SuccessValue
+    matchWith: <X, Y, A extends SuccessValue>(positiveFn: (successValue: A) => X, negativeFn: (errors: string[]) => Y) => X | Y
   }
   
-  export interface RopError<Message> {
+  export interface RopError<Message, SuccessValue> {
     kind: ResultKind.Error;
     value: Message[];
+    getOrElse: <T>(other: T) => T
+    matchWith: <X, Y, A extends SuccessValue>(positiveFn: (successValue: A) => X, negativeFn: (errors: string[]) => Y) => X | Y
   }
   
-  export type ResultError = RopError<string>;
+  export type ResultError<Success> = RopError<string, Success>;
   
-  export type RopResult<SuccessValue> = ResultSuccess<SuccessValue> | ResultError;
+  export type RopResult<SuccessValue> = ResultSuccess<SuccessValue> | ResultError<SuccessValue>;
   
   // type Result<ResultSuccess, ResultError> =
+
+  // const matchWith = <T>(matches: MatchWith<T>) => (result: RopResult<T>) => {
+  //   return (isSuccess(result)) ? matches.Success(result.value) : matches.Error(result.value)
+// }
   
-  export const succeed = <T>(value: T): ResultSuccess<T> => ({ kind: ResultKind.Success, value });
+  export const succeed = <T>(value: T): ResultSuccess<T> => ({ 
+    kind: ResultKind.Success, 
+    value,
+
+    getOrElse: () => value,
+    matchWith: (matches) => matches.Success && matches.Success(value)
+  });
+
   const wrapInArray = (value: string | string[]): string[] => (Array.isArray(value) ? value : [value]);
-  export const fail = (value: string | string[]): ResultError => ({ kind: ResultKind.Error, value: wrapInArray(value) });
+  export const fail = (value: string | string[]): ResultError => ({ 
+    kind: ResultKind.Error, 
+    value: wrapInArray(value),
+
+    getOrElse: (other) => other,
+    matchWith: (matches) => matches.Error && matches.Error(wrapInArray(value))
+  });
   
   export const isSuccess = <T>(result: RopResult<T>): result is ResultSuccess<T> => result.kind === ResultKind.Success;
   export const isError = <T>(result: RopResult<T>): result is ResultError => result.kind === ResultKind.Error;

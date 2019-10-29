@@ -79,9 +79,16 @@ const wrap = <T>(result: RopResult<T>) => {
 
 
 
-const legoDeathStar = dtoToLego({ id: 'abcdefg', name: 'Death Star88888888888888888888' })
+const legoDeathStar = dtoToLego({ id: 'abcdefg', name: 'Death Star000000000000000000' })
 
-// console.log(legoDeathStar)
+// const result = legoDeathStar.matchWith({
+//     Success: (lego: string) => lego,
+//     Error: (errors) => errors
+//     // Error: (err) => {}
+// })
+
+const result = legoDeathStar.matchWith((lego) => lego, (str) => str)
+console.log(result)
 
 // wrap<Lego>(legoDeathStar).matchWith({
 //     Success: (lego) => { console.log('success', lego) },
@@ -100,6 +107,5 @@ const legoDeathStar = dtoToLego({ id: 'abcdefg', name: 'Death Star88888888888888
 // })(legoDeathStar)
 
 
-const result2 = wrap(legoDeathStar).getOrElse('NOOOOO')
-
-console.log('result2', result2)
+// const result2 = wrap(legoDeathStar).getOrElse('NOOOOO')
+// console.log('result2', result2)
