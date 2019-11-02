@@ -1,4 +1,4 @@
-import Rop, { RopResult, isSuccess } from '../Result'
+import Rop, { RopResult } from '../Result2'
 
 enum ErrorStrings {
     Missing = 'Missing',
@@ -11,8 +11,8 @@ enum KindKeys {
 }
 
 interface String20 {
-    kind: KindKeys.String20
-    value: string
+    kind: KindKeys.String20;
+    value: string;
 }
 
 const isString = (str: any): str is string => typeof str === 'string' || str instanceof String
@@ -26,7 +26,7 @@ const string20 = (value?: string): RopResult<String20> => {
         return Rop.fail([ErrorStrings.MoreThan20])
     }
     
-    return Rop.succeed({
+    return Rop.succeed<String20>({
         kind: KindKeys.String20,
         value,
     })
@@ -59,26 +59,6 @@ const dtoToLego = (legoDto: LegoDto): RopResult<Lego> => {
     return res
 }
 
-interface MatchWith<T> {
-    Success: (value: T) => any
-    Error: (errors: string[]) => any
-}
-
-const matchWith = <T>(matches: MatchWith<T>) => (result: RopResult<T>) => {
-    return (isSuccess(result)) ? matches.Success(result.value) : matches.Error(result.value)
-}
-
-const getOrElse = <X,T>(other: X) => (result: RopResult<T>) => isSuccess(result) ? result.value : other
-
-const wrap = <T>(result: RopResult<T>) => {
-    return {
-        matchWith: (matches: MatchWith<T>) => matchWith<T>(matches)(result),
-        getOrElse: <X>(other: X) => getOrElse<X,T>(other)(result) 
-    }
-}
-
-
-
 const legoDeathStar = dtoToLego({ id: 'abcdefg', name: 'Death Star000000000000000000' })
 
 // const result = legoDeathStar.matchWith({
@@ -87,7 +67,12 @@ const legoDeathStar = dtoToLego({ id: 'abcdefg', name: 'Death Star00000000000000
 //     // Error: (err) => {}
 // })
 
-const result = legoDeathStar.matchWith({ Success: (lego) => 'hello', Error: () => 1 })
+interface Example<SuccessValue> {
+    Success(successValue: SuccessValue): string
+    Error(errors: string[]): number
+}
+
+const result = legoDeathStar.matchWith<Lego, string, { Success(val: Lego): string, Error(val: string[]): string }>({ Success: (lego) => 'hello', Error: () => 'hello' })
 console.log(result)
 
 // wrap<Lego>(legoDeathStar).matchWith({

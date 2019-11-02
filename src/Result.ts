@@ -3,34 +3,34 @@ export enum ResultKind {
     Error = 'ResultError',
   }
 
-interface MatchWith<Y, X, L> {
-  Success: (val: Y) => X
-  Error: (val: Y[]) => L
-}
+  interface MatchSuccess<Input, Output> {
+    Success: (value: Input) => Output,
+  }
+
+  interface MatchError<Input, Output> {
+    Error: (value: Input) => Output
+  }
   
   export interface ResultSuccess<SuccessValue> {
     kind: ResultKind.Success;
     value: SuccessValue;
     getOrElse: () => SuccessValue
-    matchWith: <X, Y, A extends SuccessValue>(positiveFn: (successValue: A) => X, negativeFn: (errors: string[]) => Y) => X | Y
+    matchWith: <Output>(matches: MatchSuccess<SuccessValue, Output>) => Output
   }
-  
-  export interface RopError<Message, SuccessValue> {
-    kind: ResultKind.Error;
-    value: Message[];
-    getOrElse: <T>(other: T) => T
-    matchWith: <X, Y, A extends SuccessValue>(positiveFn: (successValue: A) => X, negativeFn: (errors: string[]) => Y) => X | Y
-  }
-  
-  export type ResultError<Success> = RopError<string, Success>;
-  
-  export type RopResult<SuccessValue> = ResultSuccess<SuccessValue> | ResultError<SuccessValue>;
-  
-  // type Result<ResultSuccess, ResultError> =
 
-  // const matchWith = <T>(matches: MatchWith<T>) => (result: RopResult<T>) => {
-  //   return (isSuccess(result)) ? matches.Success(result.value) : matches.Error(result.value)
-// }
+  export interface RopError {
+    kind: ResultKind.Error;
+    value: string[];
+    getOrElse: <T>(other: T) => T
+    matchWith: <Output>(matches: MatchError<string[], Output>) => Output
+  }
+  
+  // export type ResultError<Success = void> = RopError<string, Success>;
+  
+  // export type RopResult<SuccessValue> = ResultSuccess<SuccessValue> | ResultError<SuccessValue>;
+
+  export type ResultError = RopError;
+  export type RopResult<SuccessValue> = ResultSuccess<SuccessValue> | ResultError;
   
   export const succeed = <T>(value: T): ResultSuccess<T> => ({ 
     kind: ResultKind.Success, 
@@ -38,15 +38,17 @@ interface MatchWith<Y, X, L> {
 
     getOrElse: () => value,
     matchWith: (matches) => matches.Success && matches.Success(value)
+    // matchWith: () => value
   });
 
   const wrapInArray = (value: string | string[]): string[] => (Array.isArray(value) ? value : [value]);
-  export const fail = (value: string | string[]): ResultError => ({ 
+  export const fail = (value: string[]): RopError => ({ 
     kind: ResultKind.Error, 
     value: wrapInArray(value),
 
     getOrElse: (other) => other,
     matchWith: (matches) => matches.Error && matches.Error(wrapInArray(value))
+    // matchWith: () => wrapInArray(value)
   });
   
   export const isSuccess = <T>(result: RopResult<T>): result is ResultSuccess<T> => result.kind === ResultKind.Success;
@@ -69,7 +71,7 @@ interface MatchWith<Y, X, L> {
     } else if (isError(successOrError) && isError(func)) {
       return mergeErrors(successOrError, func);
     } else {
-      return fail('applyR');
+      return fail(['applyR']);
     }
   };
   
