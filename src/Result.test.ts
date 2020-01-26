@@ -1,4 +1,4 @@
-import Result, { Success, Fail, applyR } from './Result2';
+import Result, { Success, Fail, applyR } from './Result';
 
 describe('succeed', () => {
   let result: Success<string>
