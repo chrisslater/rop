@@ -62,8 +62,8 @@ const succeed = <T>(value: T) => Success.of<T>(value)
 const fail = (value: string[]) => Fail.of(value)
 
 
-export const isSuccess = <T>(result: RopResult<T>): result is Success<T> => result instanceof Success;
-export const isError = <T>(result: RopResult<T>): result is Fail<string[]> => result instanceof Fail
+export const isSuccess = <T>(result: any): result is Success<T> => result instanceof Success;
+export const isError = (result: any): result is Fail<string[]> => result instanceof Fail
 
 const mergeErrors = (error1: Fail<string[]>, error2: Fail<string[]>): Fail<string[]> => fail(error1.value.concat(error2.value));
 
@@ -86,9 +86,16 @@ type Func = (arg: any) => any;
 // };
 
 // Takes a function that is in a suc
-export type Func2<T, U> = (v: Success<U> | Fail<string[]>) => Success<T> | Fail<string[]>
-export const applyR = <T, U>(fn: Success<Func2<T, U>>) => (value: Success<U> | Fail<string[]>): Success<T> | Fail<string[]> => {
-  return fn.value(value)
+export type Func1<GoodOutput, Input> = (v: Input) => GoodOutput
+
+export const applyR = <T, U>(fn: Func1<T, U>) => (successOrFail: Success<U> | Fail<string[]>): Success<T> | Fail<string[]> => {
+  if (isSuccess(successOrFail)) {
+    return Success.of(fn(successOrFail.value))
+  } else if (isError(successOrFail)) {
+    return successOrFail
+  }
+
+  return Fail.of(['Fail'])
 }
 
   // export const liftR = <T>(fun: Func) => (result: Success<T> | Fail<string[]>): Success<T> | Fail<string[]> => {
@@ -97,15 +104,17 @@ export const applyR = <T, U>(fn: Success<Func2<T, U>>) => (value: Success<U> | F
   //   return res;
   // };
 
-  export const liftR = <T, U>(fun: Func2<T, U>) => (result: Success<U> | Fail<string[]>): Success<T> | Fail<string[]> => {
-    const fun1 = succeed(fun);
+  export const liftR = <T, U>(fun: Func1<T, U>) => (result: Success<U> | Fail<string[]>): Success<T> | Fail<string[]> => {
+    // const fun1 = succeed(fun);
+    const fun1 = fun
     const res = applyR<T, U>(fun1)(result);
     return res;
   };
   
-  export const lift2R = (fun: Func) => <T>(result1: RopResult<T>) => <X>(result2: RopResult<X>) => {
-    let f = liftR(fun)(result1);
-    // @ts-ignore
+  export type Func2<Output, InputOne, InputTwo> = (input1: InputOne) => Func1<Output, InputTwo>
+  export const lift2R = <Output, InputOne, InputTwo>(fun: Func2<Output, InputOne, InputTwo>) => <T>(result1: RopResult<T>) => <X>(result2: RopResult<X>) => {
+    let f = liftR<Func1<Output, InputOne>, Func2<Output, InputOne, InputTwo>>(fun)(result1);
+
     const res = applyR(f)(result2);
     return res;
   };

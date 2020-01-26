@@ -1,4 +1,4 @@
-import Result, { Success, Fail, applyR, Func2 } from './Result2';
+import Result, { Success, Fail, applyR, Func2, Func1 } from './Result2';
 
 describe('succeed', () => {
   let result: Success<string>
@@ -36,86 +36,27 @@ describe('applyR', () => {
 
     beforeEach(() => {
       const success = Success.of('foo');
-      const fn: Func2<string, string> = (a) => a
-      const successFn = Success.of(fn)
+      const fn: Func1<string, string> = (a) => a
+      const successFn = fn
       result = applyR<string, string>(successFn)(success);
     });
-
-    // it('should call function with value of foo', () => {
-    //   expect(mockFun).toBeCalledWith('foo');
-    // });
 
     it('should ', () => {
         expect(result).toBeInstanceOf(Success)
         expect(result.value).toEqual('foo')
     })
-
-    // it('should return a ResultSuccess', () => {
-    //   expect(result.kind).toBe(ResultKind.Success);
-    // });
-
-    // it('should contain a value returned by function', () => {
-    //   expect(result.value).toBe('bar');
-    // });
   });
 });
 
-// describe('liftR', () => {
-//   let result;
-//   beforeEach(() => {
-//     const createFun = jest.fn().mockReturnValue('bar');
-//     const success = RopResult.succeed('foo');
-//     result = RopResult.liftR(createFun)(success);
-//   });
-
-//   it('should be a success', () => {
-//     expect(result.kind).toBe(ResultKind.Success);
-//   });
-
-//   // it('should return an object with foo on it', () => {
-//   //   expect(result.value).toBe('bar');
-//   // });
-// });
-
-
-
 describe('liftR', () => {
-    describe('When all goes well', () => {
-      let result: Success<string> | Fail<string[]>;
-      beforeEach(() => {
-        const func: Func2<string, string> = (input) => {
-          return Success.of('awesome');
-        };
-        const success1 = Success.of('foo');
-        result = Result.liftR<string, string>(func)(success1);
-      });
-  
-      it('should be a success type', () => {
-        expect(result).toBeInstanceOf(Success);
-      });
-  
-      it('should have a value of awesome', () => {
-        expect(result.value).toEqual('awesome');
-      });
-    });
-  
-    // it('should return an object with foo on it', () => {
-    //   expect(result.value).toBe('bar');
-    // });
-  });
-  
-
-describe('lift2R', () => {
   describe('When all goes well', () => {
-    let result: any;
+    let result: Success<string> | Fail<string[]>;
     beforeEach(() => {
-      const func = (val1: any) => (val2: any): string => {
-        console.log(val1, val2);
+      const func: Func1<string, string> = (input) => {
         return 'awesome';
       };
       const success1 = Success.of('foo');
-      const success2 = Success.of('bar');
-      result = Result.lift2R(func)(success1)(success2);
+      result = Result.liftR<string, string>(func)(success1);
     });
 
     it('should be a success type', () => {
@@ -127,7 +68,23 @@ describe('lift2R', () => {
     });
   });
 
-  // it('should return an object with foo on it', () => {
-  //   expect(result.value).toBe('bar');
-  // });
+  describe('When all goes wrong', () => {
+    let result: Success<string> | Fail<string[]>;
+    beforeEach(() => {
+      const func: Func1<string, string> = (input) => {
+        return 'awesome';
+      };
+      const fail = Fail.of(['fail error']);
+      result = Result.liftR<string, string>(func)(fail);
+    });
+
+    it('should be a fail type', () => {
+      expect(result).toBeInstanceOf(Fail);
+    });
+
+    it('should have value of error as array', () => {
+      expect(result.value).toEqual(['fail error']);
+    });
+  });
 });
+
