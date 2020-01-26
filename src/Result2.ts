@@ -1,5 +1,3 @@
-//matchWith: (matches) => matches.Success && matches.Success(value)
-
 interface MatchSuccess<T, A> { 
     Success(val: T): A 
 }
@@ -10,31 +8,35 @@ interface MatchError<T, A> {
 
 type Matcher<T, A, X, Z> = MatchSuccess<T, A> & MatchError<X, Z>
 
-interface Result<T> {
-    matchWith<R>(matches: Matcher<T, R>): R
+// interface Result<T> {
+//     matchWith<R>(matches: Matcher<T, R>): R
+// }
+
+export interface SuccessInterface<T> {
+  getOrElse<O>(other: O): T
 }
 
-class ResultSuccess<T> {
+export class Success<T> implements SuccessInterface<T> {
     public value: T;
 
     constructor(value: T) {
         this.value = value
     }
 
-    static of<A>(value: A) {
-        return new ResultSuccess(value)
+    static of<A>(value: A): Success<A> {
+        return new Success<A>(value);
     }
 
     getOrElse() {
         return this.value
     }
 
-    matchWith<R, _, M extends MatchSuccess<T, R>>(matches: M): R {
-        return matches.Success && matches.Success(this.value)
-    }
+    // matchWith<R, _, M extends MatchSuccess<T, R>>(matches: M): R {
+    //     return matches.Success && matches.Success(this.value)
+    // }
 }
 
-class ResultError<T> {
+export class Fail<T> {
     public value: T;
 
     constructor(value: T) {
@@ -42,51 +44,62 @@ class ResultError<T> {
     }
 
     static of<A>(value: A) {
-        return new ResultError(value)
+        return new Fail(value)
     }
 
     getOrElse<A>(other: A): A {
         return other
     }
 
-    matchWith<_, R, M extends MatchError<T, R>>(matches: M): R  {
-        return matches.Error && matches.Error(this.value)
-    }
+    // matchWith<_, R, M extends MatchError<T, R>>(matches: M): R  {
+    //     return matches.Error && matches.Error(this.value)
+    // }
 }
-
-export type RopResult<T> = ResultSuccess<T> | ResultError<string[]>
-
-
-const succeed = <T>(value: T) => ResultSuccess.of<T>(value)
-const fail = (value: string[]) => ResultError.of(value)
+export type RopResult<T> = Success<T> | Fail<string[]>
 
 
-export const isSuccess = <T>(result: RopResult<T>): result is ResultSuccess<T> => result instanceof ResultSuccess;
-export const isError = <T>(result: RopResult<T>): result is ResultError<string[]> => result instanceof ResultError
+const succeed = <T>(value: T) => Success.of<T>(value)
+const fail = (value: string[]) => Fail.of(value)
 
-const mergeErrors = (error1: ResultError<string[]>, error2: ResultError<string[]>): ResultError<string[]> => fail(error1.value.concat(error2.value));
+
+export const isSuccess = <T>(result: RopResult<T>): result is Success<T> => result instanceof Success;
+export const isError = <T>(result: RopResult<T>): result is Fail<string[]> => result instanceof Fail
+
+const mergeErrors = (error1: Fail<string[]>, error2: Fail<string[]>): Fail<string[]> => fail(error1.value.concat(error2.value));
 
 type Func = (arg: any) => any;
 
-export const applyR = (func: RopResult<Func>) => <Success1>(
-    successOrError: RopResult<Success1>
-  ): RopResult<Success1> => {
-    if (isSuccess(successOrError) && isSuccess(func)) {
-      return succeed(func.value(successOrError.value));
-    } else if (isSuccess(successOrError) && isError(func)) {
-      return func;
-    } else if (isError(successOrError) && isSuccess(func)) {
-      return successOrError;
-    } else if (isError(successOrError) && isError(func)) {
-      return mergeErrors(successOrError, func);
-    } else {
-      return fail(['applyR']);
-    }
-  };
-  
-  export const liftR = (fun: Func) => <T>(result: RopResult<T>): RopResult<T> => {
+// export const applyR = <T>(func: T) => <Success1>(
+//   successOrError: RopResult<Success1>
+// ): RopResult<Success1> => {
+//   if (isSuccess(successOrError) && isSuccess(func)) {
+//     return succeed(func.value(successOrError.value));
+//   } else if (isSuccess(successOrError) && isError(func)) {
+//     return func;
+//   } else if (isError(successOrError) && isSuccess(func)) {
+//     return successOrError;
+//   } else if (isError(successOrError) && isError(func)) {
+//     return mergeErrors(successOrError, func);
+//   } else {
+//     return fail(['applyR']);
+//   }
+// };
+
+// Takes a function that is in a suc
+export type Func2<T, U> = (v: Success<U> | Fail<string[]>) => Success<T> | Fail<string[]>
+export const applyR = <T, U>(fn: Success<Func2<T, U>>) => (value: Success<U> | Fail<string[]>): Success<T> | Fail<string[]> => {
+  return fn.value(value)
+}
+
+  // export const liftR = <T>(fun: Func) => (result: Success<T> | Fail<string[]>): Success<T> | Fail<string[]> => {
+  //   const fun1 = succeed(fun);
+  //   const res = applyR<Func, T>(fun1)(result);
+  //   return res;
+  // };
+
+  export const liftR = <T, U>(fun: Func2<T, U>) => (result: Success<U> | Fail<string[]>): Success<T> | Fail<string[]> => {
     const fun1 = succeed(fun);
-    const res = applyR(fun1)(result);
+    const res = applyR<T, U>(fun1)(result);
     return res;
   };
   
@@ -115,4 +128,4 @@ export const applyR = (func: RopResult<Func>) => <Success1>(
 
 
 
-export default { ResultSuccess, ResultError, succeed, fail, liftR, lift2R, lift3R, isError, isSuccess }
+export default { Success, Fail, succeed, fail, liftR, lift2R, lift3R, isError, isSuccess }
