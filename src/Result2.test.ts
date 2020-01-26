@@ -37,7 +37,7 @@ describe('applyR', () => {
     beforeEach(() => {
       const success = Success.of('foo');
       const fn: Func1<string, string> = (a) => a
-      const successFn = fn
+      const successFn = Success.of(fn)
       result = applyR<string, string>(successFn)(success);
     });
 

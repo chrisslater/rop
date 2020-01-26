@@ -88,9 +88,9 @@ type Func = (arg: any) => any;
 // Takes a function that is in a suc
 export type Func1<GoodOutput, Input> = (v: Input) => GoodOutput
 
-export const applyR = <T, U>(fn: Func1<T, U>) => (successOrFail: Success<U> | Fail<string[]>): Success<T> | Fail<string[]> => {
-  if (isSuccess(successOrFail)) {
-    return Success.of(fn(successOrFail.value))
+export const applyR = <T, U>(fn: RopResult<Func1<T, U>>) => (successOrFail: Success<U> | Fail<string[]>): Success<T> | Fail<string[]> => {
+  if (isSuccess(fn) && isSuccess(successOrFail)) {
+    return Success.of(fn.value(successOrFail.value))
   } else if (isError(successOrFail)) {
     return successOrFail
   }
@@ -104,18 +104,17 @@ export const applyR = <T, U>(fn: Func1<T, U>) => (successOrFail: Success<U> | Fa
   //   return res;
   // };
 
-  export const liftR = <T, U>(fun: Func1<T, U>) => (result: Success<U> | Fail<string[]>): Success<T> | Fail<string[]> => {
-    // const fun1 = succeed(fun);
-    const fun1 = fun
-    const res = applyR<T, U>(fun1)(result);
+  export const liftR = <Output, InputOne>(fun: Func1<Output, InputOne>) => (result: RopResult<InputOne>): RopResult<Output> => {
+    const fun1 = succeed(fun);
+    const res = applyR<Output, InputOne>(fun1)(result);
     return res;
   };
   
   export type Func2<Output, InputOne, InputTwo> = (input1: InputOne) => Func1<Output, InputTwo>
-  export const lift2R = <Output, InputOne, InputTwo>(fun: Func2<Output, InputOne, InputTwo>) => <T>(result1: RopResult<T>) => <X>(result2: RopResult<X>) => {
-    let f = liftR<Func1<Output, InputOne>, Func2<Output, InputOne, InputTwo>>(fun)(result1);
+  export const lift2R = <Output, InputOne, InputTwo>(fun: Func2<Output, InputOne, InputTwo>) => (result1: RopResult<InputOne>) => (result2: RopResult<InputTwo>): RopResult<Output> => {
+    let f = liftR(fun)(result1);
 
-    const res = applyR(f)(result2);
+    const res = applyR<Output, InputTwo>(f)(result2);
     return res;
   };
   
