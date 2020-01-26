@@ -1,7 +1,12 @@
-export type RopResult<T> = Success<T> | Fail<string[]>
-export type Func1<GoodOutput, Input> = (v: Input) => GoodOutput
-export type Func2<Output, InputOne, InputTwo> = (input: InputOne) => Func1<Output, InputTwo>
-export type Func3<Output, InputOne, InputTwo, InputThree> = (input: InputOne) => Func2<Output, InputTwo, InputThree>
+type Result<T> = Success<T> | Fail<string[]>
+
+type Func1<GoodOutput, Input> = (v: Input) => GoodOutput
+type Func2<Output, InputOne, InputTwo> = (input: InputOne) => Func1<Output, InputTwo>
+type Func3<Output, InputOne, InputTwo, InputThree> = (input: InputOne) => Func2<Output, InputTwo, InputThree>
+
+type LiftR = <A>(result: Result<A>) => <Out>(fun: Func1<Out, A>) => Result<Out>
+type LiftR2 = <A>(result1: Result<A>) => <B>(result2: Result<B>) => <Out>(fun: Func2<Out, A, B>) => Result<Out>
+type LiftR3 = <A>(result1: Result<A>) => <B>(result2: Result<B>) => <C>(result3: Result<C>) => <Out>(fun: Func3<Out, A, B, C>) => Result<Out>
 
 export interface SuccessInterface<T> {
   getOrElse<O>(other: O): T
@@ -57,7 +62,7 @@ export const isFail = (result: any): result is Fail<string[]> => result instance
 
 const mergeErrors = (error1: Fail<string[]>, error2: Fail<string[]>): Fail<string[]> => fail(error1.value.concat(error2.value));
 
-export const applyR =  <U>(successOrFail: RopResult<U>) => <T>(fn: RopResult<Func1<T, U>>): RopResult<T> => {
+export const applyR =  <U>(successOrFail: Result<U>) => <T>(fn: Result<Func1<T, U>>): Result<T> => {
   if (isSuccess(fn) && isSuccess(successOrFail)) {
     return Success.of(fn.value(successOrFail.value))
   } else if (isFail(fn) && isSuccess(successOrFail)) {
@@ -71,10 +76,6 @@ export const applyR =  <U>(successOrFail: RopResult<U>) => <T>(fn: RopResult<Fun
     return Fail.of(['ROP_FAIL'])
   }
 }
-
-type LiftR = <InputOne>(result: RopResult<InputOne>) => <Output>(fun: Func1<Output, InputOne>) => RopResult<Output>
-type LiftR2 = <InputOne>(result1: RopResult<InputOne>) => <InputTwo>(result2: RopResult<InputTwo>) => <Output>(fun: Func2<Output, InputOne, InputTwo>) => RopResult<Output>
-type LiftR3 = <InputOne>(result1: RopResult<InputOne>) => <InputTwo>(result2: RopResult<InputTwo>) => <InputThree>(result3: RopResult<InputThree>) => <Output>(fun: Func3<Output, InputOne, InputTwo, InputThree>) => RopResult<Output>
 
 export const liftR: LiftR = (result) => (fun) => {
   const fun1 = succeed(fun);
