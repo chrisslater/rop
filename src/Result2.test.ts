@@ -160,7 +160,7 @@ describe('lift3R', () => {
       };
       const fail = Fail.of(['fail error']);
       const fail2 = Fail.of(['fail error2']);
-      const fail3 = Fail.of(['fail error2']);
+      const fail3 = Fail.of(['fail error3']);
       result = Result.lift3R(fail)(fail2)(fail3)(func);
     });
 
