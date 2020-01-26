@@ -76,6 +76,24 @@ export const liftR3: LiftR3 = (result1) => (result2) => (result3) => (fun) => {
   return applyR(result3)(f);
 };
 
+/**
+ * MATCH WITH
+ */
+interface Matcher<T> {
+  Success: (value: T) => void,
+  Fail: (errs: string[]) => void
+}
+
+export const matchResult = <T>(successOrFail: Result<T>) => <Matchers extends Matcher<T>>(matchers: Matchers): void => {
+  isSuccess(successOrFail) && matchers.Success(successOrFail.value)
+  isFail(successOrFail) && matchers.Fail(successOrFail.value)
+}
+
+export const matchResult2 = <T>(matchers: Matcher<T>) => (successOrFail: Result<T>): void => {
+  isSuccess(successOrFail) && matchers.Success(successOrFail.value)
+  isFail(successOrFail) && matchers.Fail(successOrFail.value)
+}
+
 export default { 
   Success, 
   Fail, 

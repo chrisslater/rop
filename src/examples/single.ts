@@ -1,33 +1,35 @@
-import Rop, { RopResult, isSuccess } from '../Result'
+import * as Rop from '../Result'
 
-enum ErrorStrings {
-    Missing = 'Missing',
-    MoreThan20 = 'MoreThan20'
+const ErrorStrings = {
+    Missing: 'Missing',
+    MoreThan20: 'MoreThan20'
 }
 
-enum KindKeys {
+enum KindKey {
     String20 = 'String20',
-    Lego = 'Lego'
-}
+    Lego = 'Lego',
+}   
 
 interface String20 {
-    kind: KindKeys.String20
+    kind: KindKey,
     value: string
 }
 
 const isString = (str: any): str is string => typeof str === 'string' || str instanceof String
 
-const string20 = (value?: string): RopResult<String20> => {
+const isString20 = (value?: any): value is String20 => value && value.kind && value.kind === KindKey.String20 || false
+
+const string20 = (value?: any): Rop.Result<String20> => {
     if (!isString(value)) {
         return Rop.fail([ErrorStrings.Missing])
     }
 
-    if (value.length > 21) {
+    if (value.length > 20) {
         return Rop.fail([ErrorStrings.MoreThan20])
     }
-    
+
     return Rop.succeed({
-        kind: KindKeys.String20,
+        kind: KindKey.String20,
         value,
     })
 }
@@ -38,74 +40,54 @@ interface LegoDto {
 }
 
 interface Lego {
-    kind: KindKeys.Lego
+    kind: KindKey.Lego
     id: string
     name: String20
 }
 
 const createLego = (id: string) => (name: String20): Lego => ({
-    kind: KindKeys.Lego,
+    kind: KindKey.Lego,
     id,
     name,
 })
 
-const dtoToLego = (legoDto: LegoDto): RopResult<Lego> => {
+const dtoToLego = (legoDto: LegoDto): Rop.Result<Lego> => {
     const idOrError = isString(legoDto.id) ? Rop.succeed(legoDto.id): Rop.fail([ErrorStrings.Missing])
-    const string20OrError = string20(legoDto.name)
+    const nameOrError = string20(legoDto.name)
 
-
-    const res = Rop.lift2R(createLego)(idOrError)(string20OrError)
+    const res = Rop.liftR2(idOrError)(nameOrError)(createLego)
 
     return res
 }
 
-interface MatchWith<T> {
-    Success: (value: T) => any
-    Error: (errors: string[]) => any
+const successfulTransform = dtoToLego({ 
+    id: 'abcdefg',
+    name: 'Death Star'  
+});
+
+const failedTransform = dtoToLego({
+    name: 'VERRRRRRRRRRRRRRRRYYYYYYYYYYYY BBIIIIIIIIIIGGGGGG Name'
+});
+
+const resultsAsArray = [successfulTransform, failedTransform]
+
+const logErrors = (str: string[]) => { 
+    str.map((v, k) => console.log(`error ${k + 1}`, v))
 }
 
-const matchWith = <T>(matches: MatchWith<T>) => (result: RopResult<T>) => {
-    return (isSuccess(result)) ? matches.Success(result.value) : matches.Error(result.value)
-}
+Rop.matchResult(successfulTransform)({
+    Success: (value) => {
+        console.log('successfulTransform', value)
+    },
 
-const getOrElse = <X,T>(other: X) => (result: RopResult<T>) => isSuccess(result) ? result.value : other
+    Fail: logErrors
+})
 
-const wrap = <T>(result: RopResult<T>) => {
-    return {
-        matchWith: (matches: MatchWith<T>) => matchWith<T>(matches)(result),
-        getOrElse: <X>(other: X) => getOrElse<X,T>(other)(result) 
-    }
-}
+const match = Rop.matchResult2<Lego>({
+    Success: (value) => {
+        console.log('matcherResult2 success', value)
+    },
+    Fail: logErrors,
+})
 
-
-
-const legoDeathStar = dtoToLego({ id: 'abcdefg', name: 'Death Star000000000000000000' })
-
-// const result = legoDeathStar.matchWith({
-//     Success: (lego: string) => lego,
-//     Error: (errors) => errors
-//     // Error: (err) => {}
-// })
-
-const result = legoDeathStar.matchWith({ Success: (lego) => 'hello', Error: () => 1 })
-console.log(result)
-
-// wrap<Lego>(legoDeathStar).matchWith({
-//     Success: (lego) => { console.log('success', lego) },
-//     Error: (errs) => { console.log('errors', errs) }
-// })
-
-// matchWith({
-//     Success: (lego) => { console.log('success', lego) },
-//     Error: (errs) => { console.log('errors', errs) },
-
-// })(legoDeathStar)
-
-// const result = matchWith({
-//     Success: (lego) => lego,
-//     Error: (_) => 'W00t'
-// })(legoDeathStar)
-
-
-// const result2 = wrap(legoDeathStar).getOrElse('NOOOOO')
-// console.log('result2', result2)
+resultsAsArray.map(match)
