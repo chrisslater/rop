@@ -72,20 +72,24 @@ export const applyR =  <U>(successOrFail: RopResult<U>) => <T>(fn: RopResult<Fun
   }
 }
 
-export const liftR = <InputOne>(result: RopResult<InputOne>) => <Output>(fun: Func1<Output, InputOne>): RopResult<Output> => {
+type LiftR = <InputOne>(result: RopResult<InputOne>) => <Output>(fun: Func1<Output, InputOne>) => RopResult<Output>
+type LiftR2 = <InputOne>(result1: RopResult<InputOne>) => <InputTwo>(result2: RopResult<InputTwo>) => <Output>(fun: Func2<Output, InputOne, InputTwo>) => RopResult<Output>
+type LiftR3 = <InputOne>(result1: RopResult<InputOne>) => <InputTwo>(result2: RopResult<InputTwo>) => <InputThree>(result3: RopResult<InputThree>) => <Output>(fun: Func3<Output, InputOne, InputTwo, InputThree>) => RopResult<Output>
+
+export const liftR: LiftR = (result) => (fun) => {
   const fun1 = succeed(fun);
   const res = applyR(result)(fun1);
   return res;
 };
   
-export const lift2R = <InputOne>(result1: RopResult<InputOne>) => <InputTwo>(result2: RopResult<InputTwo>) => <Output>(fun: Func2<Output, InputOne, InputTwo>): RopResult<Output> => {
+export const lift2R: LiftR2 = (result1) => (result2) => (fun) => {
   let f = liftR(result1)(fun);
 
   const res = applyR(result2)(f);
   return res;
 };
     
-export const lift3R = <InputOne>(result1: RopResult<InputOne>) => <InputTwo>(result2: RopResult<InputTwo>) => <InputThree>(result3: RopResult<InputThree>) => <Output>(fun: Func3<Output, InputOne, InputTwo, InputThree>): RopResult<Output> => {
+export const lift3R: LiftR3 = (result1) => (result2) => (result3) => (fun) => {
   let f = lift2R(result1)(result2)(fun);
   const res = applyR(result3)(f);
   return res;
