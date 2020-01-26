@@ -87,8 +87,10 @@ type Func = (arg: any) => any;
 
 // Takes a function that is in a suc
 export type Func1<GoodOutput, Input> = (v: Input) => GoodOutput
+export type Func2<Output, InputOne, InputTwo> = (input: InputOne) => Func1<Output, InputTwo>
+export type Func3<Output, InputOne, InputTwo, InputThree> = (input: InputOne) => Func2<Output, InputTwo, InputThree>
 
-export const applyR = <T, U>(fn: RopResult<Func1<T, U>>) => (successOrFail: Success<U> | Fail<string[]>): Success<T> | Fail<string[]> => {
+export const applyR =  <T, U>(successOrFail: RopResult<U>) => (fn: RopResult<Func1<T, U>>): RopResult<T> => {
   if (isSuccess(fn) && isSuccess(successOrFail)) {
     return Success.of(fn.value(successOrFail.value))
   } else if (isError(successOrFail)) {
@@ -98,31 +100,31 @@ export const applyR = <T, U>(fn: RopResult<Func1<T, U>>) => (successOrFail: Succ
   return Fail.of(['Fail'])
 }
 
-  // export const liftR = <T>(fun: Func) => (result: Success<T> | Fail<string[]>): Success<T> | Fail<string[]> => {
-  //   const fun1 = succeed(fun);
-  //   const res = applyR<Func, T>(fun1)(result);
-  //   return res;
-  // };
+// export const liftR = <Output, InputOne>(fun: Func1<Output, InputOne>) => (result: RopResult<InputOne>): RopResult<Output> => {
+//   const fun1 = succeed(fun);
+//   const res = applyR<Output, InputOne>(fun1)(result);
+//   return res;
+// };
 
-  export const liftR = <Output, InputOne>(fun: Func1<Output, InputOne>) => (result: RopResult<InputOne>): RopResult<Output> => {
+// type LiftR = <InputOne>(result: RopResult<InputOne>) => <Output>(fun: Func1<Output, InputOne>) => RopResult<Output>
+export const liftR = <InputOne>(result: RopResult<InputOne>) => <Output>(fun: Func1<Output, InputOne>): RopResult<Output> => {
     const fun1 = succeed(fun);
-    const res = applyR<Output, InputOne>(fun1)(result);
+    const res = applyR<Output, InputOne>(result)(fun1);
     return res;
   };
   
-  export type Func2<Output, InputOne, InputTwo> = (input1: InputOne) => Func1<Output, InputTwo>
-  export const lift2R = <Output, InputOne, InputTwo>(fun: Func2<Output, InputOne, InputTwo>) => (result1: RopResult<InputOne>) => (result2: RopResult<InputTwo>): RopResult<Output> => {
-    let f = liftR(fun)(result1);
+  
+  export const lift2R = <InputOne>(result1: RopResult<InputOne>) => <InputTwo>(result2: RopResult<InputTwo>) => <Output>(fun: Func2<Output, InputOne, InputTwo>): RopResult<Output> => {
+    let f = liftR(result1)(fun);
 
-    const res = applyR<Output, InputTwo>(f)(result2);
+    const res = applyR<Output, InputTwo>(result2)(f);
     return res;
   };
   
-  export const lift3R = (fun: Func) => <T>(result1: RopResult<T>) => <X>(result2: RopResult<X>) => <Y>(
-    result3: RopResult<Y>
-  ) => {
-    let f = lift2R(fun)(result1)(result2);
-    const res = applyR(f)(result3);
+  
+  export const lift3R = <InputOne>(result1: RopResult<InputOne>) => <InputTwo>(result2: RopResult<InputTwo>) => <InputThree>(result3: RopResult<InputThree>) => <Output>(fun: Func3<Output, InputOne, InputTwo, InputThree>): RopResult<Output> => {
+    let f = lift2R(result1)(result2)(fun);
+    const res = applyR<Output, InputThree>(result3)(f);
     return res;
   };
 
