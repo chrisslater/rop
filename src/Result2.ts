@@ -1,4 +1,4 @@
-type Result<T> = Success<T> | Fail<string[]>
+export type Result<T> = Success<T> | Fail<string[]>
 type MergeErrors = (error1: Fail<string[]>) => (error2: Fail<string[]>) => Fail<string[]>
 
 type Func1<GoodOutput, Input> = (v: Input) => GoodOutput
@@ -66,13 +66,13 @@ export const applyR =  <U>(successOrFail: Result<U>) => <T>(fn: Result<Func1<T, 
 
 export const liftR: LiftR = (result) => (fun) => applyR(result)(succeed(fun));
   
-export const lift2R: LiftR2 = (result1) => (result2) => (fun) => {
+export const liftR2: LiftR2 = (result1) => (result2) => (fun) => {
   let f = liftR(result1)(fun);
   return applyR(result2)(f);
 };
     
-export const lift3R: LiftR3 = (result1) => (result2) => (result3) => (fun) => {
-  let f = lift2R(result1)(result2)(fun);
+export const liftR3: LiftR3 = (result1) => (result2) => (result3) => (fun) => {
+  let f = liftR2(result1)(result2)(fun);
   return applyR(result3)(f);
 };
 
@@ -84,6 +84,6 @@ export default {
   isFail, 
   isSuccess,
   liftR, 
-  lift2R, 
-  lift3R,  
+  liftR2, 
+  liftR3,  
 }

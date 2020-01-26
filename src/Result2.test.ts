@@ -1,4 +1,4 @@
-import Result, { Success, Fail, applyR, Func2, Func1 } from './Result2';
+import Result, { Success, Fail, applyR } from './Result2';
 
 describe('succeed', () => {
   let result: Success<string>
@@ -36,9 +36,9 @@ describe('applyR', () => {
 
     beforeEach(() => {
       const success = Success.of('foo');
-      const fn: Func1<string, string> = (a) => a
+      const fn = (a) => a
       const successFn = Success.of(fn)
-      result = applyR<string, string>(success)(successFn);
+      result = applyR(success)(successFn);
     });
 
     it('should ', () => {
@@ -97,7 +97,7 @@ describe('lift2R', () => {
       };
       const success1 = Success.of('foo');
       const success2 = Success.of('foo');
-      result = Result.lift2R(success1)(success2)(func);
+      result = Result.liftR2(success1)(success2)(func);
     });
 
     it('should be a success type', () => {
@@ -117,7 +117,7 @@ describe('lift2R', () => {
       };
       const fail = Fail.of(['fail error']);
       const fail2 = Fail.of(['fail error2']);
-      result = Result.lift2R(fail)(fail2)(func);
+      result = Result.liftR2(fail)(fail2)(func);
     });
 
     it('should be a fail type', () => {
@@ -140,7 +140,7 @@ describe('lift3R', () => {
       const success1 = Success.of('foo');
       const success2 = Success.of('foo');
       const success3 = Success.of('foo');
-      result = Result.lift3R(success1)(success2)(success3)(func);
+      result = Result.liftR3(success1)(success2)(success3)(func);
     });
 
     it('should be a success type', () => {
@@ -161,7 +161,7 @@ describe('lift3R', () => {
       const fail = Fail.of(['fail error']);
       const fail2 = Fail.of(['fail error2']);
       const fail3 = Fail.of(['fail error3']);
-      result = Result.lift3R(fail)(fail2)(fail3)(func);
+      result = Result.liftR3(fail)(fail2)(fail3)(func);
     });
 
     it('should be a fail type', () => {
