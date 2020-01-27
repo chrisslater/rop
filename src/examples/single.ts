@@ -100,12 +100,12 @@ Rop.matchResult(successfulTransform)({
     Fail: logErrors
 })
 
-// const match = Rop.matchResultR<Lego>({
-//     Success: (value) => {
-//         console.log('matcherResult2 success', value)
-//     },
-//     Fail: logErrors,
-// })
+const match = Rop.matchResult2<Lego>({
+    Success: (value) => {
+        console.log('matcherResult2 success', value)
+    },
+    Fail: logErrors,
+})
 
-// resultsAsArray.map(match)
+resultsAsArray.map(match)
 
