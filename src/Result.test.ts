@@ -1,10 +1,10 @@
-import Result, { Success, Fail, applyR } from './Result';
+import { Result, Success, Fail, applyR, liftR, liftR2, liftR3 } from './Result';
 
 describe('succeed', () => {
   let result: Success<string>
 
   beforeEach(() => {
-    result = Result.succeed('hello');
+    result = Success.of('hello');
   });
 
   it('should return an instance of Success', () => {
@@ -20,7 +20,7 @@ describe('fail', () => {
   let result: Fail<string[]>;
 
   beforeEach(() => {
-    result = Result.fail(['FAIL']);
+    result = Fail.of(['FAIL']);
   });
 
   it('should return a an instance of Fail', () => {
@@ -33,7 +33,7 @@ describe('fail', () => {
 });
 
 describe('applyR', () => {
-  let result: Success<string> | Fail<string[]>;
+  let result: Result<string>;
   let mockFn = jest.fn();
 
   afterEach(() => {
@@ -63,7 +63,7 @@ describe('applyR', () => {
 });
 
 describe('liftR', () => {
-  let result: Success<string> | Fail<string[]>;
+  let result: Result<string>;
   let mockFn = jest.fn();
 
   afterEach(() => {
@@ -77,7 +77,7 @@ describe('liftR', () => {
   describe('When all goes well', () => {
     beforeEach(() => {
       const success1 = Success.of('foo');
-      result = Result.liftR(success1)(mockFn);
+      result = liftR(success1)(mockFn);
     });
 
     it('should be a success type', () => {
@@ -96,7 +96,7 @@ describe('liftR', () => {
   describe('When all goes wrong', () => {
     beforeEach(() => {
       const fail = Fail.of(['fail error']);
-      result = Result.liftR(fail)(mockFn);
+      result = liftR(fail)(mockFn);
     });
 
     it('should be a fail type', () => {
@@ -114,7 +114,7 @@ describe('liftR', () => {
 });
 
 describe('lift2R', () => {
-  let result: Success<string> | Fail<string[]>;
+  let result: Result<string>;
   let mockFn = jest.fn()
   let mockFn2 = jest.fn();
 
@@ -132,7 +132,7 @@ describe('lift2R', () => {
     beforeEach(() => {
       const success1 = Success.of('foo');
       const success2 = Success.of('bar');
-      result = Result.liftR2(success1)(success2)(mockFn);
+      result = liftR2(success1)(success2)(mockFn);
     });
 
     it('should be a success type', () => {
@@ -154,9 +154,9 @@ describe('lift2R', () => {
 
   describe('When all goes wrong', () => {
     beforeEach(() => {
-      const fail = Fail.of(['fail error']);
-      const fail2 = Fail.of(['fail error2']);
-      result = Result.liftR2(fail)(fail2)(mockFn);
+      const fail = Success.of(['fail error']);
+      const fail2 = Success.of(['fail error2']);
+      result = liftR2(fail)(fail2)(mockFn);
     });
 
     it('should be a fail type', () => {
@@ -170,7 +170,7 @@ describe('lift2R', () => {
 });
 
 describe('lift3R', () => {
-  let result: Success<string> | Fail<string[]>;
+  let result: Result<string>;
   let mockFn = jest.fn();
   let mockFn2 = jest.fn();
   let mockFn3 = jest.fn();
@@ -192,7 +192,7 @@ describe('lift3R', () => {
       const success1 = Success.of('foo');
       const success2 = Success.of('bar');
       const success3 = Success.of('baz');
-      result = Result.liftR3(success1)(success2)(success3)(mockFn);
+      result = liftR3(success1)(success2)(success3)(mockFn);
     });
 
     it('should be a success type', () => {
@@ -224,7 +224,7 @@ describe('lift3R', () => {
       const fail = Fail.of(['fail error']);
       const fail2 = Fail.of(['fail error2']);
       const fail3 = Fail.of(['fail error3']);
-      result = Result.liftR3(fail)(fail2)(fail3)(func);
+      result = liftR3(fail)(fail2)(fail3)(func);
     });
 
     it('should be a fail type', () => {
