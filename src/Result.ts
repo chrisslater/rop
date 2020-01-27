@@ -22,9 +22,14 @@ export const matchResult2 = <T>(matchers: Matcher<T>) => (successOrFail: Result<
   isSuccess(successOrFail) && matchers.Success(successOrFail.value)
   isFail(successOrFail) && matchers.Fail(successOrFail.value)
 }
+
+export const getOrElse = <A>(other: () => A) => <T>(successOrFail: Result<T>): T | A => 
+  (isSuccess(successOrFail)) ? successOrFail.value : other()
+  
   
 interface ResultInterface<T> {
   value: T | string[]
+  getOrElse<A>(other: () => A): T | A
   matchResult(matches: Matcher<T>): void
 }
 
@@ -41,7 +46,7 @@ export class Success<T> implements ResultInterface<T> {
     return new Success<A>(value, messages);
   }
 
-  getOrElse() {
+  getOrElse<A>(_: () => A): A | T {
     return this.value
   }
 
@@ -61,7 +66,7 @@ export class Fail<T> implements ResultInterface<T> {
     return new Fail(value)
   }
 
-  getOrElse<A>(other: () => A): A {
+  getOrElse<A>(other: () => A): A | T {
     return other();
   }
 

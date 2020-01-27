@@ -85,12 +85,16 @@ successfulTransform.matchResult({
     Fail: logErrors,
 })
 
+const successGetResult = successfulTransform.getOrElse(() => 'Hello')
+
 failedTransform.matchResult({
     Success: (value) => { 
         console.log('successfulTransform from Class', value)
     },
     Fail: logErrors,
 })
+
+
 
 Rop.matchResult(successfulTransform)({
     Success: (value) => {
@@ -108,4 +112,8 @@ const match = Rop.matchResult2<Lego>({
 })
 
 resultsAsArray.map(match)
+
+const getOrElse = Rop.getOrElse(() => 'Boo')
+
+const resultOfGetOrElse = resultsAsArray.map(getOrElse)
 
