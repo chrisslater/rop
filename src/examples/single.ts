@@ -75,6 +75,11 @@ const logErrors = (str: string[]) => {
     str.map((v, k) => console.log(`error ${k + 1}`, v))
 }
 
+successfulTransform.matchResult({
+    Success: (value) => console.log('successfulTransform from Class', value),
+    Fail: logErrors,
+})
+
 Rop.matchResult(successfulTransform)({
     Success: (value) => {
         console.log('successfulTransform', value)
@@ -91,3 +96,4 @@ const match = Rop.matchResult2<Lego>({
 })
 
 resultsAsArray.map(match)
+
