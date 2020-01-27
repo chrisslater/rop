@@ -1,5 +1,5 @@
 export type Result<T> = Success<T> | Fail<T>
-type MergeErrors = <T>(error1: Fail<T>) => (error2: Fail<T>) => Fail<T>
+type MergeErrors = <T>(error1: Fail<T>) => <U>(error2: Fail<U>) => Fail<U & T>
 
 type Func1<GoodOutput, Input> = (v: Input) => GoodOutput
 type Func2<Output, InputOne, InputTwo> = (input: InputOne) => Func1<Output, InputTwo>
@@ -26,7 +26,7 @@ export const matchResult2 = <T>(matchers: Matcher<T>) => (successOrFail: Result<
   isSuccess(successOrFail) && matchers.Success(successOrFail.value)
   isFail(successOrFail) && matchers.Fail(successOrFail.value)
 }
-
+  
 interface ResultInterface<T> {
   matchResult(matches:  Matcher<T>): void
 }
@@ -46,8 +46,8 @@ export class Success<T> implements ResultInterface<T> {
     return this.value
   }
 
-  matchResult(matches: Matcher<T>) {
-    return matches.Success(this.value)
+  matchResult(matches: Matcher<T>): void {
+    matchResult(Success.of(this.value))(matches)
   }
 }
 
@@ -58,16 +58,16 @@ export class Fail<T> implements ResultInterface<T>{
     this.value = value
   }
 
-  static of(value: string[]) {
-    return new Fail(value)
+  static of<A>(value: string[]): Fail<A> {
+    return new Fail<A>(value)
   }
 
   getOrElse<A>(other: () => A): A {
     return other();
   }
 
-  matchResult(matches: Matcher<T>) {
-    return matches.Fail(this.value)
+  matchResult(matches: Matcher<T>): void {
+    matchResult(Fail.of(this.value))(matches)
   }
 }
 
@@ -79,7 +79,7 @@ export const isFail = <T>(result: any): result is Fail<T> => result instanceof F
 
 export const mergeErrors: MergeErrors = (error1) => (error2) => fail(error1.value.concat(error2.value));
 
-export const applyR =  <U>(successOrFail: Result<U>) => <T>(fn: Result<Func1<T, U>>): Result<T> => {
+export const applyR =  <U>(successOrFail: Result<U>) => <T>(fn: Result<Func1<T, U>>): Success<T> | Fail<any> => {
   if (isSuccess(fn) && isSuccess(successOrFail)) {
     return Success.of(fn.value(successOrFail.value))
   } else if (isFail(fn) && isSuccess(successOrFail)) {

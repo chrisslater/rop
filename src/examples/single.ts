@@ -51,8 +51,11 @@ const createLego = (id: string) => (name: String20): Lego => ({
     name,
 })
 
+const dtoToId = (id: any): Rop.Result<string> =>
+    isString(id) ? Rop.succeed(id): Rop.fail([ErrorStrings.Missing])
+
 const dtoToLego = (legoDto: LegoDto): Rop.Result<Lego> => {
-    const idOrError = isString(legoDto.id) ? Rop.succeed(legoDto.id): Rop.fail([ErrorStrings.Missing])
+    const idOrError = dtoToId(legoDto.id)
     const nameOrError = string20(legoDto.name)
 
     const res = Rop.liftR2(idOrError)(nameOrError)(createLego)
@@ -76,7 +79,16 @@ const logErrors = (str: string[]) => {
 }
 
 successfulTransform.matchResult({
-    Success: (value) => console.log('successfulTransform from Class', value),
+    Success: (value) => { 
+        console.log('successfulTransform from Class', value)
+    },
+    Fail: logErrors,
+})
+
+failedTransform.matchResult({
+    Success: (value) => { 
+        console.log('successfulTransform from Class', value)
+    },
     Fail: logErrors,
 })
 
@@ -88,12 +100,12 @@ Rop.matchResult(successfulTransform)({
     Fail: logErrors
 })
 
-const match = Rop.matchResult2<Lego>({
-    Success: (value) => {
-        console.log('matcherResult2 success', value)
-    },
-    Fail: logErrors,
-})
+// const match = Rop.matchResultR<Lego>({
+//     Success: (value) => {
+//         console.log('matcherResult2 success', value)
+//     },
+//     Fail: logErrors,
+// })
 
-resultsAsArray.map(match)
+// resultsAsArray.map(match)
 

@@ -22,16 +22,24 @@
             "type": "node",
             "request": "launch",
             "name": "Launch example single",
+            "runtimeExecutable": "yarn",
             "runtimeArgs": [
+                "node",
                 "-r",
                 "ts-node/register",
             ],
             "skipFiles": [
                 "<node_internals>/**"
             ],
+            "env": {
+                "TS_NODE_PROJECT": "./tsconfig.json",
+            },
             "args": [
-                "${workspaceFolder}\\src\\examples\\single.ts",
-            ]
+                "${workspaceFolder}/src/examples/single.ts",
+            ],
+            "windows": {
+                "args": ["${workspaceFolder}\\src\\examples\\single.ts",]
+            }
         }
     ]
 }
