@@ -1,8 +1,12 @@
-import { Result } from '../rop/types'
-import { succeed, fail } from '../rop/result'
-import { liftR2 } from '../rop/lift'
-import { matchResult, matchResult2 } from '../rop/matchResult'
-import { valueOrElse } from '../rop/valueOrElse'
+import { 
+    Result,
+    valueOrElse,
+    succeed, 
+    fail,
+    liftR2,
+    matchResult,
+    matchResult2
+} from '../rop'
 
 const ErrorStrings = {
     Missing: 'Missing',
@@ -98,8 +102,6 @@ failedTransform.matchResult({
     },
     Fail: logErrors,
 })
-
-
 
 matchResult(successfulTransform)({
     Success: (value) => {
