@@ -5,7 +5,8 @@ import {
     fail,
     liftR2,
     matchResult,
-    matchResult2
+    matchResult2,
+    matchMessage
 } from '../rop'
 
 const ErrorStrings = {
@@ -95,6 +96,17 @@ successfulTransform.matchResult({
 
 const successGetResult = successfulTransform.valueOrElse(() => 'Hello')
 const failGetResult = failedTransform.valueOrElse(() => 'Hello')
+
+const handleMessages = matchMessage({
+    'Missing': () => { 
+        console.log('Missing the things') 
+    },
+    'MoreThan20': () => {
+        console.log('More than 20!')
+    },
+})
+
+handleMessages(failedTransform)
 
 failedTransform.matchResult({
     Success: (value) => { 

@@ -28,3 +28,10 @@ export type Func3<Output, InputOne, InputTwo, InputThree> = (input: InputOne) =>
 export type LiftR = <A>(result: Result<A>) => <Out>(fun: Func1<Out, A>) => Result<Out>
 export type LiftR2 = <A>(result1: Result<A>) => <B>(result2: Result<B>) => <Out>(fun: Func2<Out, A, B>) => Result<Out>
 export type LiftR3 = <A>(result1: Result<A>) => <B>(result2: Result<B>) => <C>(result3: Result<C>) => <Out>(fun: Func3<Out, A, B, C>) => Result<Out>
+
+
+type Messages = {
+    [str: string]: () => void
+}
+
+export type MatchMessage = (messages: Messages) => <A>(result: Result<A>) => void
