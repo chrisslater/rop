@@ -1,5 +1,5 @@
-import { Result, Matcher } from '../types'
-import { isSuccess, isFail } from '../result'
+import { Result, Matcher } from './types'
+import { isSuccess, isFail } from './result'
 
 export const matchResult = <T>(successOrFail: Result<T>) => (matchers: Matcher<T>): void => {
     isSuccess<T>(successOrFail) && matchers.Success(successOrFail.value)

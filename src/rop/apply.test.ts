@@ -1,6 +1,6 @@
-import { Result } from '../types'
+import { Result } from './types'
 import { applyR } from './apply';
-import { Success } from '../result'
+import { Success } from './result'
 
 describe('applyR', () => {
   let result: Result<string>;

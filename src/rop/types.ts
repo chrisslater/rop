@@ -1,13 +1,25 @@
-import { Matcher } from './top'
-
-import { Success, Fail } from '../result'
-
-export interface ResultInterface<T> {
-    getOrElse<A>(other: () => A): T | A
-    matchResult(matches: Matcher<T>): void
+export interface Matcher<T> {
+    Success: (value: T) => void,
+    Fail: (errs: string[]) => void
 }
 
-export type Result<A> = Success<A> | Fail<A>
+interface IResult<A> {
+    valueOrElse<B>(other: () => B): A | B
+    matchResult(matches: Matcher<A>): void
+}
+
+export interface ISuccess<A>  extends IResult<A>{
+    value: A
+    // valueOrElse<B>(other: () => B): A | B
+    // matchResult(matches: Matcher<A>): void
+}
+export interface IFail<A> extends IResult<A> {
+    value: string[]
+    // valueOrElse<B>(other: () => B): B
+    // matchResult(matches: Matcher<A>): void
+}
+
+export type Result<A> = ISuccess<A> | IFail<A>
 
 export type Func1<GoodOutput, Input> = (v: Input) => GoodOutput
 export type Func2<Output, InputOne, InputTwo> = (input: InputOne) => Func1<Output, InputTwo>

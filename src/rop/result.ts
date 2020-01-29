@@ -1,8 +1,8 @@
-import {  ResultInterface, Matcher } from './types'
-import { matchResult } from './rop/matchResult'
+import {  IFail, ISuccess, Matcher } from './types'
+import { matchResult } from './matchResult'
   
 
-export class Success<T> implements ResultInterface<T> {
+export class Success<T> implements ISuccess<T> {
   public value: T;
   public messages: string[];
 
@@ -15,7 +15,7 @@ export class Success<T> implements ResultInterface<T> {
     return new Success<A>(value, messages);
   }
 
-  getOrElse<A>(_: () => A): A | T {
+  valueOrElse<A>(_: () => A): T {
     return this.value
   }
 
@@ -24,7 +24,7 @@ export class Success<T> implements ResultInterface<T> {
   }
 }
 
-export class Fail<T> implements ResultInterface<T> {
+export class Fail<T> implements IFail<T> {
   public value: string[];
 
   constructor(value: string[]) {
@@ -35,7 +35,7 @@ export class Fail<T> implements ResultInterface<T> {
     return new Fail(value)
   }
 
-  getOrElse<A>(other: () => A): A | T {
+  valueOrElse<A>(other: () => A): A {
     return other();
   }
 
@@ -45,10 +45,10 @@ export class Fail<T> implements ResultInterface<T> {
 }
 
 export const succeed = <T>(value: T, messages: string[] = []) => Success.of<T>(value, messages)
-export const fail = (value: string[]) => Fail.of(value)
+export const fail = <T>(value: string[]) => Fail.of<T>(value)
 
-export const isSuccess = <T>(result: any): result is Success<T> => result instanceof Success;
-export const isFail = <T>(result: any): result is Fail<T> => result instanceof Fail
+export const isSuccess = <T>(result: any): result is ISuccess<T> => result instanceof Success;
+export const isFail = <T>(result: any): result is IFail<T> => result instanceof Fail
 
 export default { 
   Success, 

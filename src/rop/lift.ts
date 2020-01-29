@@ -1,5 +1,5 @@
-import { LiftR, LiftR2, LiftR3 } from '../types'
-import { succeed } from '../result'
+import { LiftR, LiftR2, LiftR3 } from './types'
+import { succeed } from './result'
 import { applyR } from './apply';
 
 export const liftR: LiftR = (result) => (fun) => applyR(result)(succeed(fun));
