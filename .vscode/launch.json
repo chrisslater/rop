@@ -40,6 +40,26 @@
             "windows": {
                 "args": ["${workspaceFolder}\\src\\examples\\single.ts",]
             }
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch match-domain-errors",
+            "runtimeExecutable": "yarn",
+            "runtimeArgs": [
+                "node",
+                "-r",
+                "ts-node/register",
+            ],
+            "env": {
+                "TS_NODE_PROJECT": "./tsconfig.json",
+            },
+            "args": [
+                "${workspaceFolder}/src/examples/match-domain-errors.ts",
+            ],
+            "windows": {
+                "args": ["${workspaceFolder}\\src\\examples\\match-domain-errors.ts",]
+            }
         }
     ]
 }
