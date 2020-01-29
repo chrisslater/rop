@@ -3865,7 +3865,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ]],
       ["jest", [
         ["npm:24.9.0", {
-          "packageLocation": "./.yarn/cache/jest-npm-24.9.0-8ddb425e99-1.zip/node_modules/jest/",
+          "packageLocation": "./.yarn/unplugged/jest-npm-24.9.0-8ddb425e99/node_modules/jest/",
           "packageDependencies": [
             ["jest", "npm:24.9.0"],
             ["import-local", "npm:2.0.0"],

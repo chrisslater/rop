@@ -6,6 +6,20 @@
     "configurations": [
         {
             "type": "node",
+            "name": "vscode-jest-tests",
+            "request": "launch",
+            "program": "${workspaceFolder}/.yarn/unplugged/jest-npm-24.9.0-8ddb425e99/node_modules/jest/bin/jest",
+            "args": [
+                "--runInBand"
+            ],
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen",
+            "disableOptimisticBPs": true
+        },
+       
+        {
+            "type": "node",
             "request": "launch",
             "name": "Launch example single",
             "runtimeExecutable": "yarn",

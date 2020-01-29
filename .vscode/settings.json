@@ -1,4 +1,4 @@
 {
   "typescript.tsdk": ".vscode/pnpify/typescript/lib",
-  "jest.pathToJest": "yarn test"
+  "jest.pathToJest": ".vscode/unplugged/jest-npm-24.9.0-8ddb425e99/node_modules/jest/bin/jest"
 }

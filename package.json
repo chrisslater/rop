@@ -18,5 +18,13 @@
     "ramda": "^0.26.1",
     "ts-node": "^8.6.2",
     "typescript": "^3.6.4"
+  },
+  "dependenciesMeta": {
+    "jest": {
+      "unplugged": true
+    },
+    "pkg-name": {
+      "unplugged": true
+    }
   }
 }
