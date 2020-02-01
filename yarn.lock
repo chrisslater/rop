@@ -1438,6 +1438,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/ramda@npm:^0.26.40":
+  version: 0.26.40
+  resolution: "@types/ramda@npm:0.26.40"
+  dependencies:
+    ts-toolbelt: ^4.12.0
+  checksum: 6f3f930e7995520de7510d51544128d7fc9dc514dc78f943b5bf3f4fb6aa0229f949ac0534f5d36863288d1438b51e5e8b8172c86860a2627261072815a47d1d
+  languageName: node
+  linkType: hard
+
 "@types/stack-utils@npm:^1.0.1":
   version: 1.0.1
   resolution: "@types/stack-utils@npm:1.0.1"
@@ -5032,6 +5041,7 @@ resolve@1.1.7:
     "@babel/preset-env": ^7.8.3
     "@babel/preset-typescript": ^7.8.3
     "@types/jest": ^24.9.1
+    "@types/ramda": ^0.26.40
     "@yarnpkg/pnpify": ^2.0.0-rc.16
     jest: ^24.9.0
     ramda: ^0.26.1
@@ -5642,6 +5652,13 @@ resolve@1.1.7:
     ts-node: dist/bin.js
     ts-script: dist/script.js
   checksum: 4f0f34835971565c95caa8c8c6da7524cd3ec930d9e6782c1a5c7daa776f58c496a85184ab61531608df772ee3cd772555986cd289024c942b5013ca2db86d68
+  languageName: node
+  linkType: hard
+
+"ts-toolbelt@npm:^4.12.0":
+  version: 4.14.6
+  resolution: "ts-toolbelt@npm:4.14.6"
+  checksum: 7946a4a82a2e8820bf200db500b568a3f9bb267e090862c698265fb0448abb5f183a94dcf17895d49fd9568ff1f01c1c558d1aeace412a9141a8eb7d44d1dcaf
   languageName: node
   linkType: hard
 

@@ -133,6 +133,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/preset-env", "virtual:8266018337724c4917b845bfb69a1f41686f8c296d224a84cfef0f1ae894ab94d072a16ae926ab4e6af075e1cd1188d8a0f19287bcd347137d4df724c9094829#npm:7.8.3"],
             ["@babel/preset-typescript", "virtual:8266018337724c4917b845bfb69a1f41686f8c296d224a84cfef0f1ae894ab94d072a16ae926ab4e6af075e1cd1188d8a0f19287bcd347137d4df724c9094829#npm:7.8.3"],
             ["@types/jest", "npm:24.9.1"],
+            ["@types/ramda", "npm:0.26.40"],
             ["@yarnpkg/pnpify", "virtual:8266018337724c4917b845bfb69a1f41686f8c296d224a84cfef0f1ae894ab94d072a16ae926ab4e6af075e1cd1188d8a0f19287bcd347137d4df724c9094829#npm:2.0.0-rc.16"],
             ["jest", "npm:24.9.0"],
             ["ramda", "npm:0.26.1"],
@@ -1769,6 +1770,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["@types/jest", "npm:24.9.1"],
             ["jest-diff", "npm:24.9.0"]
+          ],
+          "linkType": "HARD"
+        }]
+      ]],
+      ["@types/ramda", [
+        ["npm:0.26.40", {
+          "packageLocation": "./.yarn/cache/@types-ramda-npm-0.26.40-6a2588ca99-1.zip/node_modules/@types/ramda/",
+          "packageDependencies": [
+            ["@types/ramda", "npm:0.26.40"],
+            ["ts-toolbelt", "npm:4.14.6"]
           ],
           "linkType": "HARD"
         }]
@@ -5782,6 +5793,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/preset-env", "virtual:8266018337724c4917b845bfb69a1f41686f8c296d224a84cfef0f1ae894ab94d072a16ae926ab4e6af075e1cd1188d8a0f19287bcd347137d4df724c9094829#npm:7.8.3"],
             ["@babel/preset-typescript", "virtual:8266018337724c4917b845bfb69a1f41686f8c296d224a84cfef0f1ae894ab94d072a16ae926ab4e6af075e1cd1188d8a0f19287bcd347137d4df724c9094829#npm:7.8.3"],
             ["@types/jest", "npm:24.9.1"],
+            ["@types/ramda", "npm:0.26.40"],
             ["@yarnpkg/pnpify", "virtual:8266018337724c4917b845bfb69a1f41686f8c296d224a84cfef0f1ae894ab94d072a16ae926ab4e6af075e1cd1188d8a0f19287bcd347137d4df724c9094829#npm:2.0.0-rc.16"],
             ["jest", "npm:24.9.0"],
             ["ramda", "npm:0.26.1"],
@@ -6446,6 +6458,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "packagePeers": [
             "typescript"
+          ],
+          "linkType": "HARD"
+        }]
+      ]],
+      ["ts-toolbelt", [
+        ["npm:4.14.6", {
+          "packageLocation": "./.yarn/cache/ts-toolbelt-npm-4.14.6-da9c2e20d2-1.zip/node_modules/ts-toolbelt/",
+          "packageDependencies": [
+            ["ts-toolbelt", "npm:4.14.6"]
           ],
           "linkType": "HARD"
         }]

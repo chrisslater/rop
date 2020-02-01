@@ -5,16 +5,26 @@ export interface Matcher<T> {
 
 interface IResult<A> {
     valueOrElse<B>(other: () => B): A | B
+    map<B>(func: (value: A) => B): ISuccess<B> | IFail<A>
     matchResult(matches: Matcher<A>): void
+    flatten(value: Result<A>): Result<A>
+    // flatMap<B>(fn: (value: A, messagese: string[]) => ISuccess<B>): ISuccess<B>
 }
 
 export interface ISuccess<A>  extends IResult<A>{
+    // constructor(value: A, messages: string[])
     value: A
+    messages: string[]
+    // flatMap<B>(fn: (value: A, messagese: string[]) => ISuccess<B>): ISuccess<B>
     // valueOrElse<B>(other: () => B): A | B
     // matchResult(matches: Matcher<A>): void
 }
 export interface IFail<A> extends IResult<A> {
+    // constructor(value: string | string[]): void
     value: string[]
+    
+    
+    // flatMap<B>(fn: (value: string[]) => IFail<B>): IFail<B>
     // valueOrElse<B>(other: () => B): B
     // matchResult(matches: Matcher<A>): void
 }
