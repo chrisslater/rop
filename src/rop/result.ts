@@ -1,6 +1,7 @@
 import {  Result, IFail, ISuccess, Matcher } from './types'
 import { matchResult } from './matchResult'
   
+const strToStrArray = (value: string | string[]) => Array.isArray(value) ? value: [ value ]
 
 export class Success<T> implements ISuccess<T> {
   public value: T;
@@ -11,8 +12,8 @@ export class Success<T> implements ISuccess<T> {
     this.messages = messages
   }
 
-  static of<A>(value: A, messages: string[] = []): ISuccess<A> {
-    return new Success<A>(value, messages);
+  static of<A>(value: A, messages: string | string[] = []): ISuccess<A> {
+    return new Success<A>(value, strToStrArray(messages));
   }
 
   valueOrElse<A>(_: () => A): T {
@@ -45,7 +46,7 @@ export class Fail<T> implements IFail<T> {
   }
 
   static of<A>(value: string | string[]): IFail<A> {
-    return new Fail<A>(Array.isArray(value) ? value: [ value ])
+    return new Fail<A>(strToStrArray(value))
   }
 
   valueOrElse<A>(other: () => A): A {
@@ -70,7 +71,7 @@ export class Fail<T> implements IFail<T> {
   }
 }
 
-export const succeed = <T>(value: T, messages: string[] = []) => Success.of<T>(value, messages)
+export const succeed = <T>(value: T, messages: string | string[] = []) => Success.of<T>(value, messages)
 export const fail = <T>(value: string | string[]) => Fail.of<T>(value)
 
 export const isSuccess = <T>(result: any): result is ISuccess<T> => result instanceof Success;
