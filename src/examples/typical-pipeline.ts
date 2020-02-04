@@ -50,7 +50,7 @@ const email = (value?: any): Rop.Result<Email> => {
     return Rop.succeed<Email>({
         kind: KindKey.Email,
         value,
-    })
+    }, 'Successful')
 }
 
 interface ProfileDto {
@@ -93,28 +93,31 @@ const dtoToProfile = (dto: ProfileDto): Rop.Result<Profile> => {
     return Rop.liftR2(nameOrFail)(emailOrFail)(createProfile)
 }
 
-const handleProfile = (success: Rop.ISuccess<Profile>) => {
-    console.log('succcesses', success)
-}
-
 const logFail = (fail: string[]): void => {
     console.log('fail', fail)
 
 }
 
-const logSuccess = <T>(success: Rop.ISuccess<T>): void => {
-    console.log('success', success)
+const logSuccess = <T>(success: T, messages: string[]): void => {
+    console.log('success', success, messages)
 }
 
-
-
-const pipeline = R.pipe(
+const transformDtoToProfile = R.pipe(   
     dtoToProfile,
     Rop.failTree(logFail),
-    Rop.successTree(logSuccess)
-    // Rop.successTree(handleProfile),
+    Rop.successTree(logSuccess),
 )
 
-const outcome = pipeline(dtos[0])
+const transformDtosToProfiles = (results: ProfileDto[]) => results.map(transformDtoToProfile)
 
-console.log(outcome)
+const fetchDtos = async () => await dtos
+
+
+const pipeline = R.pipeK<Promise<ProfileDto>>(
+    fetchDtos,
+    R.then(() => {
+        return 
+    })
+    
+    // R.then(transformDtoToProfile),
+)
