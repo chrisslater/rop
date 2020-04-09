@@ -58,6 +58,12 @@ interface ProfileDto {
     email?: string
 }
 
+const database = [
+    {
+        email: 'simon@example.com'
+    }
+]
+
 const dtos: ProfileDto[] = [
     {
         name: 'Chris',
@@ -65,7 +71,7 @@ const dtos: ProfileDto[] = [
     },
     {
         name: 'Simon',
-        
+        email: 'simon@example.com',
     }
 ]
 
@@ -108,16 +114,16 @@ const transformDtoToProfile = R.pipe(
     Rop.successTree(logSuccess),
 )
 
-const transformDtosToProfiles = (results: ProfileDto[]) => results.map(transformDtoToProfile)
-
-const fetchDtos = async () => await dtos
-
-
-const pipeline = R.pipeK<Promise<ProfileDto>>(
-    fetchDtos,
-    R.then(() => {
-        return 
-    })
-    
-    // R.then(transformDtoToProfile),
+const filterUniqueEmails = R.pipe(
+    R.filter(() => )
 )
+
+const fetchDtos = async () => dtos
+
+const pipeline = R.pipe(
+    R.map(transformDtoToProfile),
+)
+
+// filter success and errors seperately
+pipeline(dtos)
+    
