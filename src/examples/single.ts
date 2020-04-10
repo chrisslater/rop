@@ -9,6 +9,8 @@ import {
     matchMessage
 } from '../rop'
 
+import * as R from 'ramda'
+
 const ErrorStrings = {
     Missing: 'Missing',
     MoreThan20: 'MoreThan20'
@@ -94,8 +96,22 @@ successfulTransform.matchResult({
     Fail: logErrors,
 })
 
+const success1 = succeed('Hello')
+const success2 = succeed('World')
+
+const result = success1.flatten(success2)
+
 const successGetResult = successfulTransform.valueOrElse(() => 'Hello')
-const failGetResult = failedTransform.valueOrElse(() => 'Hello')
+const failGetResult = failedTransform.flatten(successfulTransform)
+
+const mapResult = R.map((value) => {
+    console.log(value)
+    return value
+})
+
+const teset = failedTransform.map((value) => { 
+    return value
+})
 
 const handleMessages = matchMessage({
     'Missing': () => { 
