@@ -1,5 +1,5 @@
 name: Node.js CI tests
-on: [push, pull_request]
+on: [push]
 
 # on:
 #   # Trigger the workflow on push or pull request,
@@ -11,7 +11,7 @@ on: [push, pull_request]
 
 
 jobs:
-  test:
+  test_and_release:
     runs-on: ubuntu-latest
 
     strategy:
@@ -29,7 +29,4 @@ jobs:
       env:
         CI: true
     - name: Simulate a release
-      uses: brpaz/action-semantic-release@v1
-      with:
-        dry_run: "true"
-
+      uses: semantic-release --dry-run
