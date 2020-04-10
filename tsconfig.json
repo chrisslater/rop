@@ -46,7 +46,7 @@
     // "paths": {},                           /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */
     // "rootDirs": [],                        /* List of root folders whose combined content represents the structure of the project at runtime. */
     "typeRoots": [
-      ".yarn/unplugged/@types-jest-file-edb68d9f6f/node_modules/@types"
+      ".yarn/unplugged/@types-jest-file-9169df7f20/node_modules/@types"
     ],                       /* List of folders to include type definitions from. */
     "types": [
       "jest",

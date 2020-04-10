@@ -1,17 +1,19 @@
 {
-  "name": "ropresult",
-  "version": "1.0.0",
+  "name": "@snapperfish/rop",
+  "version": "0.0.0-development",
   "main": "index.js",
   "license": "MIT",
   "languageName": "node",
   "scripts": {
     "test": "jest",
-    "start": "ts-node ./src/examples/single"
+    "start": "ts-node ./src/examples/single",
+    "semantic-release": "semantic-release"
   },
   "devDependencies": {
-    "@types/jest": "file:.yarn/unplugged/@types-jest-npm-25.2.1-90a4950495/node_modules/@types/jest",
+    "@types/jest": "file:.local/@types-jest-npm-25.2.1-90a4950495/node_modules/@types/jest",
     "@yarnpkg/pnpify": "^2.0.0-rc.16",
-    "jest": "file:.yarn/unplugged/jest-npm-25.3.0-0dde009daa/node_modules/jest",
+    "jest": "file:.local/jest-npm-25.2.1-b53b34cf7a/node_modules/jest",
+    "semantic-release": "^17.0.4",
     "ts-jest": "^25.3.1",
     "ts-node": "^8.8.1",
     "typescript": "^3.8.3"
@@ -23,5 +25,9 @@
     "jest": {
       "unplugged": true
     }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chrisslater/rop.git"
   }
 }

@@ -1,20 +1,17 @@
-name: Node.js CI
+name: Node.js CI tests
+on: [push, pull_request]
 
-# on: [push]
+# on:
+#   # Trigger the workflow on push or pull request,
+#   # but only for the master branch
+#   push:
+#     branches:
+#       - master
+  
 
-on:
-  # Trigger the workflow on push or pull request,
-  # but only for the master branch
-  push:
-    branches:
-      - master
-  pull_request:
-    branches:
-      - master
 
 jobs:
-  build:
-
+  test:
     runs-on: ubuntu-latest
 
     strategy:
@@ -31,5 +28,8 @@ jobs:
     - run: yarn test
       env:
         CI: true
+    - name: Simulate a release
+      uses: brpaz/action-semantic-release@v1
+      with:
+        dry_run: "true"
 
-  
