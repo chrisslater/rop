@@ -1,13 +1,19 @@
 {
   "name": "@snapperfish/rop",
   "version": "0.0.0-development",
-  "main": "index.js",
+  "main": "out/es5/index.js",
+  "module": "out/es6/index.js",
   "license": "MIT",
   "languageName": "node",
   "scripts": {
     "test": "jest",
     "start": "ts-node ./src/examples/single",
-    "semantic-release": "semantic-release"
+    "semantic-release": "semantic-release",
+    "build:tsc": "tsc",
+    "build": "yarn build:next && yarn build:es5",
+    "build:next": "tsc -p tsconfig.next.json",
+    "build:es5": "tsc -p tsconfig.json",
+    "build:default": "tsc"
   },
   "devDependencies": {
     "@types/jest": "file:.local/@types-jest-npm-25.2.1-90a4950495/node_modules/@types/jest",

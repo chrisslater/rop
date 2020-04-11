@@ -1,0 +1,20 @@
+{
+    "compilerOptions": {
+      "target": "ESNext",
+      "lib": [
+        "ESNext",
+      ],
+      "outDir": "./out/esnext",
+      "rootDir": "./src",
+      "strict": true,
+      "esModuleInterop": true,
+      "moduleResolution": "node"
+    },
+    "exclude": [
+      "src/examples",
+      ".yarn",
+      "out",
+      "**/*.test.ts"
+    ]
+  }
+  

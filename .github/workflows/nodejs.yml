@@ -16,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x, 13.x]
+        node-version: [13.x]
 
     steps:
     - uses: actions/checkout@v2
@@ -28,8 +28,22 @@ jobs:
     - run: yarn test
       env:
         CI: true
-    - name: Simulate a release
-      run: yarn semantic-release --dry-run
+
+   
+
+    
+  build:
+    needs: "test"
+    steps:
+    - name: Build
+      run: yarn build
+
+  release:
+    needs: ["build"]
+    steps:
+    - name: Release release
+      run: yarn semantic-release
       env:
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      

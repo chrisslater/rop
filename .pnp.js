@@ -999,7 +999,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["read-pkg", "npm:5.2.0"],
             ["registry-auth-token", "npm:4.1.1"],
             ["semantic-release", "npm:17.0.4"],
-            ["semver", "npm:7.2.1"],
+            ["semver", "npm:7.2.2"],
             ["tempy", "npm:0.5.0"]
           ],
           "packagePeers": [
@@ -3970,7 +3970,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["is-retry-allowed", "npm:1.2.0"],
             ["is-stream", "npm:1.1.0"],
             ["lowercase-keys", "npm:1.0.1"],
-            ["safe-buffer", "npm:5.1.2"],
+            ["safe-buffer", "npm:5.2.0"],
             ["timed-out", "npm:4.0.1"],
             ["unzip-response", "npm:2.0.1"],
             ["url-parse-lax", "npm:1.0.0"]
@@ -5818,7 +5818,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["dotenv", "npm:5.0.1"],
             ["npm-package-arg", "npm:6.1.1"],
             ["rimraf", "npm:2.7.1"],
-            ["safe-buffer", "npm:5.1.2"],
+            ["safe-buffer", "npm:5.2.0"],
             ["update-notifier", "npm:2.5.0"],
             ["which", "npm:1.3.1"],
             ["y18n", "npm:4.0.0"],
@@ -6483,7 +6483,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/minipass-npm-2.9.0-6335fbe4af-1.zip/node_modules/minipass/",
           "packageDependencies": [
             ["minipass", "npm:2.9.0"],
-            ["safe-buffer", "npm:5.1.2"],
+            ["safe-buffer", "npm:5.2.0"],
             ["yallist", "npm:3.1.1"]
           ],
           "linkType": "HARD"
@@ -6908,7 +6908,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["request", "npm:2.88.2"],
             ["retry", "npm:0.12.0"],
             ["rimraf", "npm:2.7.1"],
-            ["safe-buffer", "npm:5.1.2"],
+            ["safe-buffer", "npm:5.2.0"],
             ["semver", "npm:5.7.1"],
             ["sha", "npm:3.0.0"],
             ["slide", "npm:1.1.6"],
@@ -7521,7 +7521,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["promise-retry", "npm:1.1.1"],
             ["protoduck", "npm:5.0.1"],
             ["rimraf", "npm:2.7.1"],
-            ["safe-buffer", "npm:5.1.2"],
+            ["safe-buffer", "npm:5.2.0"],
             ["semver", "npm:5.7.1"],
             ["ssri", "npm:6.0.1"],
             ["tar", "npm:4.4.13"],
@@ -8246,7 +8246,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["registry-auth-token", "npm:3.4.0"],
             ["rc", "npm:1.2.8"],
-            ["safe-buffer", "npm:5.1.2"]
+            ["safe-buffer", "npm:5.2.0"]
           ],
           "linkType": "HARD"
         }],
@@ -8317,7 +8317,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["oauth-sign", "npm:0.9.0"],
             ["performance-now", "npm:2.1.0"],
             ["qs", "npm:6.5.2"],
-            ["safe-buffer", "npm:5.1.2"],
+            ["safe-buffer", "npm:5.2.0"],
             ["tough-cookie", "npm:2.5.0"],
             ["tunnel-agent", "npm:0.6.0"],
             ["uuid", "npm:3.4.0"]
@@ -8604,7 +8604,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["p-reduce", "npm:2.1.0"],
             ["read-pkg-up", "npm:7.0.1"],
             ["resolve-from", "npm:5.0.0"],
-            ["semver", "npm:7.2.1"],
+            ["semver", "npm:7.2.2"],
             ["semver-diff", "npm:3.1.1"],
             ["signale", "npm:1.4.0"],
             ["yargs", "npm:15.3.1"]
@@ -8627,10 +8627,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD"
         }],
-        ["npm:7.2.1", {
-          "packageLocation": "./.yarn/cache/semver-npm-7.2.1-361eace08b-1.zip/node_modules/semver/",
+        ["npm:7.2.2", {
+          "packageLocation": "./.yarn/cache/semver-npm-7.2.2-fe4f9047db-1.zip/node_modules/semver/",
           "packageDependencies": [
-            ["semver", "npm:7.2.1"]
+            ["semver", "npm:7.2.2"]
           ],
           "linkType": "HARD"
         }]
@@ -9188,10 +9188,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["string.prototype.trimend", [
-        ["npm:1.0.0", {
-          "packageLocation": "./.yarn/cache/string.prototype.trimend-npm-1.0.0-108b6ffa0d-1.zip/node_modules/string.prototype.trimend/",
+        ["npm:1.0.1", {
+          "packageLocation": "./.yarn/cache/string.prototype.trimend-npm-1.0.1-c110c5981f-1.zip/node_modules/string.prototype.trimend/",
           "packageDependencies": [
-            ["string.prototype.trimend", "npm:1.0.0"],
+            ["string.prototype.trimend", "npm:1.0.1"],
             ["define-properties", "npm:1.1.3"],
             ["es-abstract", "npm:1.17.5"]
           ],
@@ -9205,7 +9205,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["string.prototype.trimleft", "npm:2.1.2"],
             ["define-properties", "npm:1.1.3"],
             ["es-abstract", "npm:1.17.5"],
-            ["string.prototype.trimstart", "npm:1.0.0"]
+            ["string.prototype.trimstart", "npm:1.0.1"]
           ],
           "linkType": "HARD"
         }]
@@ -9217,16 +9217,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["string.prototype.trimright", "npm:2.1.2"],
             ["define-properties", "npm:1.1.3"],
             ["es-abstract", "npm:1.17.5"],
-            ["string.prototype.trimend", "npm:1.0.0"]
+            ["string.prototype.trimend", "npm:1.0.1"]
           ],
           "linkType": "HARD"
         }]
       ]],
       ["string.prototype.trimstart", [
-        ["npm:1.0.0", {
-          "packageLocation": "./.yarn/cache/string.prototype.trimstart-npm-1.0.0-105508ab58-1.zip/node_modules/string.prototype.trimstart/",
+        ["npm:1.0.1", {
+          "packageLocation": "./.yarn/cache/string.prototype.trimstart-npm-1.0.1-86888269b6-1.zip/node_modules/string.prototype.trimstart/",
           "packageDependencies": [
-            ["string.prototype.trimstart", "npm:1.0.0"],
+            ["string.prototype.trimstart", "npm:1.0.1"],
             ["define-properties", "npm:1.1.3"],
             ["es-abstract", "npm:1.17.5"]
           ],
@@ -9401,7 +9401,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["minipass", "npm:2.9.0"],
             ["minizlib", "npm:1.3.3"],
             ["mkdirp", "npm:0.5.5"],
-            ["safe-buffer", "npm:5.1.2"],
+            ["safe-buffer", "npm:5.2.0"],
             ["yallist", "npm:3.1.1"]
           ],
           "linkType": "HARD"
@@ -9700,7 +9700,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/tunnel-agent-npm-0.6.0-64345ab7eb-1.zip/node_modules/tunnel-agent/",
           "packageDependencies": [
             ["tunnel-agent", "npm:0.6.0"],
-            ["safe-buffer", "npm:5.1.2"]
+            ["safe-buffer", "npm:5.2.0"]
           ],
           "linkType": "HARD"
         }]
@@ -10189,7 +10189,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/wide-align-npm-1.1.3-48c7d4953c-1.zip/node_modules/wide-align/",
           "packageDependencies": [
             ["wide-align", "npm:1.1.3"],
-            ["string-width", "npm:1.0.2"]
+            ["string-width", "npm:2.1.1"]
           ],
           "linkType": "HARD"
         }]
