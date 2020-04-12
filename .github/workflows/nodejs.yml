@@ -34,9 +34,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - uses: actions/setup-node@v1
-    - name: Build
-      run: yarn build
-    - name: Release release
+    - name: Build project
+      run: yarn && yarn build
+    - name: Release build
       run: yarn semantic-release
       env:
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
