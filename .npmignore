@@ -1,0 +1,14 @@
+.github
+.local
+.vscode
+.yarn
+src
+.env
+coverage
+.pnp.js
+jest.config.js
+jsconfig.js
+release.config.js
+tsconfig.json
+tsconfig.next.json
+yarn.lock
