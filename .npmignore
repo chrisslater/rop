@@ -7,7 +7,7 @@ src
 coverage
 .pnp.js
 jest.config.js
-jsconfig.js
+jsconfig.json
 release.config.js
 tsconfig.json
 tsconfig.next.json

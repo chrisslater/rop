@@ -5,6 +5,9 @@
   "module": "out/es6/index.js",
   "license": "MIT",
   "languageName": "node",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "test": "jest",
     "start": "ts-node ./src/examples/single",
@@ -35,5 +38,5 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/chrisslater/rop.git"
-  }
-}
+  } 
+}  
