@@ -2,7 +2,7 @@
   "name": "@snapperfish/rop",
   "version": "0.0.0-development",
   "main": "out/es5/index.js",
-  "module": "out/es6/index.js",
+  "module": "out/esnext/index.js",
   "license": "MIT",
   "languageName": "node",
   "publishConfig": {
@@ -38,5 +38,5 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/chrisslater/rop.git"
-  } 
-}  
+  }
+}
