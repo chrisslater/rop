@@ -825,8 +825,10 @@ __metadata:
   resolution: "@snapperfish/rop@workspace:."
   dependencies:
     "@types/jest": "file:.local/@types-jest-npm-25.2.1-90a4950495/node_modules/@types/jest"
+    "@types/ramda": 0.27.4
     "@yarnpkg/pnpify": ^2.0.0-rc.16
     jest: "file:.local/jest-npm-25.2.1-b53b34cf7a/node_modules/jest"
+    ramda: ^0.27.0
     semantic-release: ^17.0.4
     ts-jest: ^25.3.1
     ts-node: ^8.8.1
@@ -962,6 +964,15 @@ __metadata:
   version: 1.19.1
   resolution: "@types/prettier@npm:1.19.1"
   checksum: 72f9be31f1aedd99b26117c40640c4d5318ab7e1875d9b35db1d5447c3f21bd28eaa96ec7fc2a67640ea65af56353ae17e5a2468e06986eb90f752a5523742a7
+  languageName: node
+  linkType: hard
+
+"@types/ramda@npm:0.27.4":
+  version: 0.27.4
+  resolution: "@types/ramda@npm:0.27.4"
+  dependencies:
+    ts-toolbelt: ^6.3.3
+  checksum: b07ae6f967ef00dd1919b86e6b9029eb16c63792f9ad2126c0f686f2dc32f1f290d10ec9034e52f1c23c1e7b3a34c0c764aaa94a16a32124a4f46775b51b0acf
   languageName: node
   linkType: hard
 
@@ -7099,6 +7110,13 @@ fsevents@^2.1.2:
   languageName: node
   linkType: hard
 
+"ramda@npm:^0.27.0":
+  version: 0.27.0
+  resolution: "ramda@npm:0.27.0"
+  checksum: 896711e2125479aa0d23565f63e42e0cc6cb95a4de1e68bbc9b53df3eef7bd2d8530f435ec62e5301f154ee66e4e2ecd729215c541146867a02976d548e8242d
+  languageName: node
+  linkType: hard
+
 "rc@npm:^1.0.1, rc@npm:^1.1.6, rc@npm:^1.2.8":
   version: 1.2.8
   resolution: "rc@npm:1.2.8"
@@ -8671,6 +8689,13 @@ resolve@1.1.7:
     ts-node-transpile-only: dist/bin-transpile.js
     ts-script: dist/bin-script-deprecated.js
   checksum: 58069e4d8ec633b2d00fc2b07f0b3cca6ec2360cea24dcf49c2a61f38104dac939db6027599a3da6bb0c087055f5c1547d68a374d008c48b737bbc6f58064c99
+  languageName: node
+  linkType: hard
+
+"ts-toolbelt@npm:^6.3.3":
+  version: 6.5.1
+  resolution: "ts-toolbelt@npm:6.5.1"
+  checksum: 6e6553e2b3eeab501f76ee0a78aa8b1d0ccc0223f51c0a0c32cce94811a2ed567714e28f4c13c2f43876368f0ffb1f84d5f9d0ae6ff279c8d135648f92331a99
   languageName: node
   linkType: hard
 

@@ -114,14 +114,17 @@ const transformDtoToProfile = R.pipe(
     Rop.successTree(logSuccess),
 )
 
-const filterUniqueEmails = R.pipe(
-    R.filter(() => )
-)
-
 const fetchDtos = async () => dtos
 
 const pipeline = R.pipe(
     R.map(transformDtoToProfile),
+    Rop.s((v) => {
+        return v;
+    }),
+
+    Rop.s((v)  => {
+        return v;
+    })
 )
 
 // filter success and errors seperately

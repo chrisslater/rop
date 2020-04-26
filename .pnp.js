@@ -120,8 +120,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./",
           "packageDependencies": [
             ["@types/jest", "file:.local/@types-jest-npm-25.2.1-90a4950495/node_modules/@types/jest::locator=%40snapperfish%2Frop%40workspace%3A."],
+            ["@types/ramda", "npm:0.27.4"],
             ["@yarnpkg/pnpify", "virtual:35d93610ffa8ae9aaf835d6a87b62ecdbd601f656f413231abf6e57f0695433ca4d7ecb565eabe576a487f712fab0d96127ccfb7a4d9f84f9cee3023a8631a54#npm:2.0.0-rc.20"],
             ["jest", "file:.local/jest-npm-25.2.1-b53b34cf7a/node_modules/jest::locator=%40snapperfish%2Frop%40workspace%3A."],
+            ["ramda", "npm:0.27.0"],
             ["semantic-release", "npm:17.0.4"],
             ["ts-jest", "virtual:35d93610ffa8ae9aaf835d6a87b62ecdbd601f656f413231abf6e57f0695433ca4d7ecb565eabe576a487f712fab0d96127ccfb7a4d9f84f9cee3023a8631a54#npm:25.3.1"],
             ["ts-node", "virtual:35d93610ffa8ae9aaf835d6a87b62ecdbd601f656f413231abf6e57f0695433ca4d7ecb565eabe576a487f712fab0d96127ccfb7a4d9f84f9cee3023a8631a54#npm:8.8.2"],
@@ -1047,8 +1049,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [
             ["@snapperfish/rop", "workspace:."],
             ["@types/jest", "file:.local/@types-jest-npm-25.2.1-90a4950495/node_modules/@types/jest::locator=%40snapperfish%2Frop%40workspace%3A."],
+            ["@types/ramda", "npm:0.27.4"],
             ["@yarnpkg/pnpify", "virtual:35d93610ffa8ae9aaf835d6a87b62ecdbd601f656f413231abf6e57f0695433ca4d7ecb565eabe576a487f712fab0d96127ccfb7a4d9f84f9cee3023a8631a54#npm:2.0.0-rc.20"],
             ["jest", "file:.local/jest-npm-25.2.1-b53b34cf7a/node_modules/jest::locator=%40snapperfish%2Frop%40workspace%3A."],
+            ["ramda", "npm:0.27.0"],
             ["semantic-release", "npm:17.0.4"],
             ["ts-jest", "virtual:35d93610ffa8ae9aaf835d6a87b62ecdbd601f656f413231abf6e57f0695433ca4d7ecb565eabe576a487f712fab0d96127ccfb7a4d9f84f9cee3023a8631a54#npm:25.3.1"],
             ["ts-node", "virtual:35d93610ffa8ae9aaf835d6a87b62ecdbd601f656f413231abf6e57f0695433ca4d7ecb565eabe576a487f712fab0d96127ccfb7a4d9f84f9cee3023a8631a54#npm:8.8.2"],
@@ -1202,6 +1206,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-prettier-npm-1.19.1-396f22bcd2-1.zip/node_modules/@types/prettier/",
           "packageDependencies": [
             ["@types/prettier", "npm:1.19.1"]
+          ],
+          "linkType": "HARD"
+        }]
+      ]],
+      ["@types/ramda", [
+        ["npm:0.27.4", {
+          "packageLocation": "./.yarn/cache/@types-ramda-npm-0.27.4-ae63c7fe9e-1.zip/node_modules/@types/ramda/",
+          "packageDependencies": [
+            ["@types/ramda", "npm:0.27.4"],
+            ["ts-toolbelt", "npm:6.5.1"]
           ],
           "linkType": "HARD"
         }]
@@ -7993,6 +8007,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"
         }]
       ]],
+      ["ramda", [
+        ["npm:0.27.0", {
+          "packageLocation": "./.yarn/cache/ramda-npm-0.27.0-0ac931b47f-1.zip/node_modules/ramda/",
+          "packageDependencies": [
+            ["ramda", "npm:0.27.0"]
+          ],
+          "linkType": "HARD"
+        }]
+      ]],
       ["rc", [
         ["npm:1.2.8", {
           "packageLocation": "./.yarn/cache/rc-npm-1.2.8-d6768ac936-1.zip/node_modules/rc/",
@@ -9691,6 +9714,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "packagePeers": [
             "typescript"
+          ],
+          "linkType": "HARD"
+        }]
+      ]],
+      ["ts-toolbelt", [
+        ["npm:6.5.1", {
+          "packageLocation": "./.yarn/cache/ts-toolbelt-npm-6.5.1-b2228aa5a6-1.zip/node_modules/ts-toolbelt/",
+          "packageDependencies": [
+            ["ts-toolbelt", "npm:6.5.1"]
           ],
           "linkType": "HARD"
         }]

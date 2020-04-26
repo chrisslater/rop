@@ -57,8 +57,8 @@ export class Fail<T> implements IFail<T> {
     matchResult<T>(Fail.of(this.value))(matches)
   }
 
-  map(): IFail<T> {
-    return Fail.of<T>(this.value);
+  map<A>(_: (value: T) => A): IFail<A> {
+    return Fail.of<A>(this.value);
   }
 
   flatten(result: Result<T>): IFail<T> {

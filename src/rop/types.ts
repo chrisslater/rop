@@ -5,7 +5,7 @@ export interface Matcher<T> {
 
 interface IResult<A> {
     valueOrElse<B>(other: () => B): A | B
-    map<B>(func: (value: A) => B): ISuccess<B> | IFail<A>
+    map<B>(func: (value: A) => B): ISuccess<B> | IFail<B>
     matchResult(matches: Matcher<A>): void
     flatten(value: Result<A>): Result<A>
     // flatMap<B>(fn: (value: A, messagese: string[]) => ISuccess<B>): ISuccess<B>

@@ -20,6 +20,7 @@
   },
   "devDependencies": {
     "@types/jest": "file:.local/@types-jest-npm-25.2.1-90a4950495/node_modules/@types/jest",
+    "@types/ramda": "0.27.4",
     "@yarnpkg/pnpify": "^2.0.0-rc.16",
     "jest": "file:.local/jest-npm-25.2.1-b53b34cf7a/node_modules/jest",
     "semantic-release": "^17.0.4",
@@ -38,5 +39,8 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/chrisslater/rop.git"
+  },
+  "dependencies": {
+    "ramda": "^0.27.0"
   }
 }
