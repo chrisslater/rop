@@ -1,10 +1,9 @@
 import { fail, succeed, Success, Fail } from './result'
-import { successTree } from './successTree'
+import { s } from './s'
 
-describe('successTree', () => {
-
+describe('s', () => {
     const mockFn = jest.fn()
-    const successTreeFn = successTree(mockFn)
+    const successTreeFn = s(mockFn)
 
     describe('when a fail is passed', () => {
         it('should not run the function', () => {
@@ -28,6 +27,4 @@ describe('successTree', () => {
             expect(result.value).toEqual('hello')
         })
     })
-
-
 })
