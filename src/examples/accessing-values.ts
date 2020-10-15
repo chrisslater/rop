@@ -1,5 +1,3 @@
-import * as R from 'ramda'
-
 import { succeed, fail, valueOrElse } from '../rop'
 
 const success1 = succeed('Hello')

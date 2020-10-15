@@ -9,13 +9,13 @@
             "name": "vscode-jest-tests",
             "request": "launch",
             "runtimeExecutable": "yarn",
-            "runtimeArgs": [
-                "node",
-            ],
+            // // "runtimeArgs": [
+            //     "node",
+            // // ],
             // "program": "${workspaceFolder}/.yarn/unplugged/jest-npm-24.9.0-8ddb425e99/node_modules/jest/bin/jest",
             "args": [
                 
-                "./.yarn/unplugged/jest-npm-24.9.0-8ddb425e99/node_modules/jest/bin/jest",
+                "test",
                 "--runInBand"
             ],
             "cwd": "${workspaceFolder}",
@@ -27,24 +27,25 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch example single",
+            "name": "Example: Matching results",
             "runtimeExecutable": "yarn",
+            "sourceMaps": true,
             "runtimeArgs": [
                 "node",
                 "-r",
                 "ts-node/register",
             ],
-            // "skipFiles": [
-            //     "<node_internals>/**"
-            // ],
+            "skipFiles": [
+                "<node_internals>/**",
+            ],
             "env": {
                 "TS_NODE_PROJECT": "./tsconfig.json",
             },
             "args": [
-                "${workspaceFolder}/src/examples/single.ts",
+                "${workspaceFolder}/src/examples/matching-results.ts",
             ],
             "windows": {
-                "args": ["${workspaceFolder}\\src\\examples\\single.ts",]
+                "args": ["${workspaceFolder}\\src\\examples\\matching-results.ts",]
             }
         },
         {
