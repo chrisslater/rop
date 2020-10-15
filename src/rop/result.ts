@@ -72,7 +72,7 @@ export class Fail<T> implements IFail<T> {
 }
 
 export const succeed = <T>(value: T, messages: string | string[] = []) => Success.of<T>(value, messages)
-export const fail = <T>(value: string | string[]) => Fail.of<T>(value)
+export const fail = <T>(value: string | string[], ) => Fail.of<T>(value)
 
 export const isSuccess = <T>(result: any): result is ISuccess<T> => result instanceof Success;
 export const isFail = <T>(result: any): result is IFail<T> => result instanceof Fail
