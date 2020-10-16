@@ -2,7 +2,6 @@ import { fail, succeed, Success, Fail } from './result'
 import { failTree } from './failTree'
 
 describe('failTree', () => {
-
     const mockFn = jest.fn()
     const failTreeFn = failTree(mockFn)
 
@@ -23,6 +22,4 @@ describe('failTree', () => {
             expect(result.value).toEqual('hello')
         })
     })
-
-
 })
