@@ -30,8 +30,8 @@ export interface IFail<A> extends IResult<A> {
     value: A | undefined;
     // constructor(value: string | string[]): void
     messages: MessageEnvelope[]
-    
-    
+
+
     // flatMap<B>(fn: (value: string[]) => IFail<B>): IFail<B>
     // valueOrElse<B>(other: () => B): B
     // matchResult(matches: Matcher<A>): void
@@ -48,8 +48,8 @@ export type LiftR2 = <A>(result1: Result<A>) => <B>(result2: Result<B>) => <Out>
 export type LiftR3 = <A>(result1: Result<A>) => <B>(result2: Result<B>) => <C>(result3: Result<C>) => <Out>(fun: Func3<Out, A, B, C>) => Result<Out>
 
 
-type Messages = {
-    [str: string]: (message: MessageEnvelope) => void
+type Messages<ExtraMessages, ReturnValue> = ExtraMessages & {
+    // [str: string]: (message: MessageEnvelope) => ReturnValue
+    Default: () => ReturnValue
 }
 
-export type MatchMessage = (messages: Messages) => <A>(result: Result<A>) => void

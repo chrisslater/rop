@@ -1,10 +1,12 @@
 import { matchMessage } from './matchMessage'
-import { fail } from './result'
+import { fail, succeed } from './result'
 
 const messages = {
-    WithIdErrorMessage: jest.fn(),
-    Error: jest.fn(),
-    ErrorMessage: jest.fn(),
+    WithIdErrorMessage: jest.fn<string, string[]>(),
+    Error: jest.fn<string, string[]>(),
+    ErrorMessage: jest.fn<string, string[]>(),
+    GreatSucess: jest.fn<string, string[]>(),
+    Default: (jest.fn<string, string[]>()),
 }
 
 describe('matchMessage', () => {
@@ -51,7 +53,38 @@ describe('matchMessage', () => {
     })
 
     describe('when no matching error message is passed', () => {
-        
+
         it.todo('should call generic Error function')
+    })
+
+    describe('When return value is passed', () => {
+        describe('and matches an error', () => {
+            let value: string;
+            let mock = 'ReturnValue'
+            beforeEach(() => {
+                messages.ErrorMessage.mockReturnValue(mock)
+                value = matchMessage(messages)(fail({ code: 'ErrorMessage' }))
+            })
+
+            it('should match', () => {
+                expect(value).toEqual(mock)
+            })
+        })
+
+
+        describe('and matches a success', () => {
+            let value: string;
+            let mock = 'ReturnValue'
+            beforeEach(() => {
+                messages.GreatSucess.mockReturnValue(mock)
+                value = matchMessage(messages)(succeed('foo', { code: 'GreatSucess' }))
+            })
+
+            it('should match', () => {
+                expect(value).toEqual(mock)
+            })
+
+
+        })
     })
 })
