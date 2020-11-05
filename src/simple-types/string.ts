@@ -19,6 +19,7 @@ export const KindKeys: KindKeys = {
 
 export interface String20 {
     kind: KindKeys['String20'],
+    id: string
     value: string
 }
 
@@ -30,17 +31,26 @@ export const isString20 = (value?: any): value is String20 =>
     value.kind === KindKeys.String20 || 
     false
 
-export const string20 = (value?: any): Result<String20> => {
+export const string20 = (value?: any, id: string = 'String20'): Result<String20> => {
     if (!isString(value)) {
-        return fail<String20>([ErrorCodes.Missing])
+        return fail<String20>({
+            code: ErrorCodes.Missing,
+            id,
+            value,
+        })
     }
 
     if (value.length > 20) {
-        return fail<String20>([ErrorCodes.MoreThan20])
+        return fail<String20>({ 
+            code: ErrorCodes.MoreThan20, 
+            id, 
+            value, 
+        })
     }
 
     return succeed<String20>({
         kind: KindKeys.String20,
+        id,
         value,
     })
 }

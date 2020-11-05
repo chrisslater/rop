@@ -1,9 +1,9 @@
-import { Result } from './types'
+import { Result, MessageEnvelope } from './types'
 import { isFail } from './result'
 
-export const failTree = (fn: <T>(value: string[]) => void) => <T>(result: Result<T>): Result<T> => {
+export const failTree = (fn: (messages: MessageEnvelope[]) => void) => <T>(result: T): T => {
     if (isFail(result)) {
-        fn(result.value)
+        fn(result.messages)
     }
 
     return result

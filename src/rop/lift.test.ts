@@ -2,6 +2,8 @@ import { Result } from './types'
 import { liftR, liftR2, liftR3 } from './lift';
 import { Success, Fail } from './result'
 
+import { mockFail, failMessage } from './__mocks__'
+
 describe('liftR', () => {
   let result: Result<string>;
   let mockFn = jest.fn();
@@ -35,7 +37,7 @@ describe('liftR', () => {
 
   describe('When all goes wrong', () => {
     beforeEach(() => {
-      const fail = Fail.of(['fail error']);
+      const fail = mockFail;
       result = liftR(fail)(mockFn);
     });
 
@@ -48,7 +50,7 @@ describe('liftR', () => {
     });
 
     it('should have value of error as array', () => {
-      expect(result.value).toEqual(['fail error']);
+      expect(result.messages).toEqual([failMessage]);
     });
   });
 });
@@ -94,8 +96,8 @@ describe('lift2R', () => {
 
   describe('When all goes wrong', () => {
     beforeEach(() => {
-      const fail = Fail.of(['fail error']);
-      const fail2 = Fail.of(['fail error2']);
+      const fail = Fail.of({ code: 'fail error' });
+      const fail2 = Fail.of({ code: 'fail error2' });
       result = liftR2(fail)(fail2)(mockFn);
     });
 
@@ -104,7 +106,7 @@ describe('lift2R', () => {
     });
 
     it('should have value of error as array', () => {
-      expect(result.value).toEqual(['fail error', 'fail error2']);
+      expect(result.messages).toEqual([{ code: 'fail error' }, { code: 'fail error2' }]);
     });
   });
 });
@@ -161,9 +163,9 @@ describe('lift3R', () => {
       const func = () => () => () => {
         return 'awesome';
       };
-      const fail = Fail.of(['fail error']);
-      const fail2 = Fail.of(['fail error2']);
-      const fail3 = Fail.of(['fail error3']);
+      const fail = Fail.of({ code: 'fail error' });
+      const fail2 = Fail.of({ code: 'fail error2' });
+      const fail3 = Fail.of({ code: 'fail error3' });
       result = liftR3(fail)(fail2)(fail3)(func);
     });
 
@@ -172,7 +174,7 @@ describe('lift3R', () => {
     });
 
     it('should have value of error as array', () => {
-      expect(result.value).toEqual(['fail error', 'fail error2', 'fail error3']);
+      expect(result.messages).toEqual([{ code: 'fail error' }, { code: 'fail error2' },{ code: 'fail error3' }]);
     });
   });
 });

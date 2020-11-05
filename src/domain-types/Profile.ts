@@ -25,7 +25,7 @@ const profile = (name: Strings.String20) => (email: Email.Email): Profile => ({
 })
 
 export const dtoToProfile = (dto: ProfileDto): Result<Profile> => {
-    const nameOrFail = Strings.string20(dto.name)
+    const nameOrFail = Strings.string20(dto.name, 'name')
     const emailOrFail = Email.email(dto.email)
 
     return liftR2(nameOrFail)(emailOrFail)(profile)

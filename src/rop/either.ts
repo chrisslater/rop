@@ -1,10 +1,10 @@
-import { Result } from './types'
+import { Result, MessageEnvelope } from './types'
 import { isSuccess, succeed, fail } from './result'
 
-export const either = <Out>(failFn: (messages: string[]) => string[]) => (successFn: <I>(value: I, messages: string[]) => Out) => <I>(result: Result<I>): Result<Out> => {
-    if (isSuccess(result)) {
-        return succeed(successFn(result.value, result.messages))
+export const either = <In, Out>(failFn: (messages: MessageEnvelope[]) => MessageEnvelope[]) => (successFn: (value: In, messages: MessageEnvelope[]) => Out) => (result: Result<In>): Result<Out> => {
+    if (isSuccess<In>(result)) {
+        return succeed<Out>(successFn(result.value, result.messages))
     } else {
-        return fail<Out>(failFn(result.value))
+        return fail<Out>(failFn(result.messages))
     }
 }

@@ -3,12 +3,12 @@ import * as Rop from '../rop'
 
 import { Profile } from '../domain-types'
 
-const logFail = (fail: string[]): void => {
-    console.log('fail', fail)
+const logFail = (failMessages: Rop.MessageEnvelope[]): void => {
+    console.log('fail', failMessages)
 
 }
 
-const logSuccess = <T>(success: T, messages: string[]): void => {
+const logSuccess = (success: Profile.Profile, messages: Rop.MessageEnvelope[]): void => {
     console.log('success', success, messages)
 }
 
@@ -29,27 +29,57 @@ const dtos: Profile.ProfileDto[] = [
     }
 ]
 
-const transformDtoToProfile = R.pipe(   
+const saveToDatabase = async (profile: Profile.Profile) => {
+    
+}
+
+const then = <I, T>(fn: (input: I) => T) => (value: Promise<I>): Promise<T> => 
+    value.then(fn)
+
+// const catch = <I, T>(fn: (input: I) => T) => (value: Promise<I>): Promise<T> => 
+//     value.then((v) => fn(v))
+
+
+const resultAsync = ({ successMessages, failMessages }: { successMessages: Rop.MessageEnvelope | Rop.MessageEnvelope[], failMessages: Rop.MessageEnvelope | Rop.MessageEnvelope[] }) => <In, Out>(fn: (value: In) => Promise<Out>) => (value: In): Promise<Rop.Result<Out>> => 
+    fn(value)
+        .then((out) => Rop.succeed(out, successMessages))
+        // @todo add error
+        .catch(() => Rop.fail(failMessages))
+
+
+const processProfile = R.pipe(   
     Profile.dtoToProfile,
     Rop.failTree(logFail),
     Rop.successTree(logSuccess),
-    Rop.s((v) => {
-        return 'v';
-    }),
+    resultAsync({ successMessages: { code: 'SAVE_SUCCESS' }, failMessages: { code: 'SAVE_FAIL' } })(saveToDatabase),
+    (value) => {}
 )
 
 const fetchDtos = async () => dtos
 
-const pipeline = R.map(transformDtoToProfile)
-
-const then = <I, T>(fn: (input: I) => T) => (value: Promise<I>): Promise<T> => 
-    value.then((v) => fn(v))
+const asyncTryCatch = <Value>(catcher) => (tryer) => async (value) => {
+    try {
+        return await tryer()
+    } catch (error) {
+        return await catcher()
+    }
+}
 
 // filter success and errors seperately
 
-R.pipe(
+const log = R.map((profile: Profile.Profile) => {
+
+})
+
+const pipeline = R.pipe(
     fetchDtos,
-    then(pipeline),
+    then(R.map(processProfile)),
 )
 
+
+
+Rop.compute(async () => {
+    R.map(() => {})(await pipeline())
+
     
+});

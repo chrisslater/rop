@@ -1,5 +1,6 @@
 import { IFail, ISuccess } from './types'
 import { Success, Fail, succeed, fail } from './result';
+import { mockFail, failMessage } from './__mocks__'
 
 const identity = <A>(value: A): A => value
 
@@ -37,7 +38,7 @@ describe('fail', () => {
   let result: IFail<string>;
 
   beforeEach(() => {
-    result = fail(['FAIL']);
+    result = mockFail;
   });
 
   it('should return a an instance of Fail', () => {
@@ -45,20 +46,20 @@ describe('fail', () => {
   });
 
   it('should contain matching value', () => {
-    expect(result.value).toEqual(['FAIL'])
+    expect(result.messages).toEqual([failMessage])
   })
 
   describe('map', () => {
     it('should pass in the value', () => {
       const res = result.map(identity)
-      expect(res).toEqual(fail(['FAIL']))
+      expect(res).toEqual(mockFail)
     })
   })
 
-  describe('flatteen', () => {
+  describe('flatten', () => {
     it('should flatten in the value', () => {
-      const res = result.flatten(fail(['Fail2']))
-      expect(res.value).toEqual(['FAIL', 'Fail2'])
+      const res = result.flatten(fail({ code: 'Fail2'}))
+      expect(res.messages).toEqual([failMessage, { code: 'Fail2' }])
     })
   })
 });

@@ -9,11 +9,11 @@ const ErrorStrings = {
 }
 
 export interface KindKeys {
-    Email: 'Lego'
+    Email: 'Email'
 }
 
 const KindKeys: KindKeys = {
-    Email: 'Lego',
+    Email: 'Email',
 }
 
 export interface Email {
@@ -29,23 +29,25 @@ const hasAtSymbol = (str: string): boolean =>
     : false
 
 
-export const email = (value?: any): Result<Email> => {
+export const email = (value?: any, id = 'Email'): Result<Email> => {
     if (!Strings.isString(value)) {
-        return fail<Email>([ErrorStrings.EmailMissing])
+        return fail<Email>({ 
+            code: ErrorStrings.EmailMissing,
+            id,
+            value, 
+        })
     }
 
-    // @todo if no @ symbol
-
     if (value.length > 20) {
-        return fail<Email>([ErrorStrings.EmailMoreThan20])
+        return fail<Email>({ code: ErrorStrings.EmailMoreThan20, id })
     }
 
     if (!hasAtSymbol(value)) {
-        return fail<Email>([ErrorStrings.EmailMissingSymbol])
+        return fail<Email>({ code: ErrorStrings.EmailMissingSymbol, id })
     }
 
     return succeed<Email>({
         kind: KindKeys.Email,
         value,
-    }, 'Successful')
+    })
 }

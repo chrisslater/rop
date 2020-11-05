@@ -1,5 +1,6 @@
 import { fail, succeed, Success, Fail } from './result'
 import { failTree } from './failTree'
+import { mockFail, failMessage } from './__mocks__'
 
 describe('failTree', () => {
     const mockFn = jest.fn()
@@ -7,10 +8,9 @@ describe('failTree', () => {
 
     describe('when a fail is passed', () => {
         it('should run the function', () => {
-            const mockFail = fail<string>('hello')
             const result = failTreeFn(mockFail)
             expect(result).toBeInstanceOf(Fail)
-            expect(result.value).toEqual(['hello'])
+            expect(result.messages[0]).toEqual(failMessage)
         })
     })
 

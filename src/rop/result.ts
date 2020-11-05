@@ -1,19 +1,19 @@
-import {  Result, IFail, ISuccess, Matcher } from './types'
+import {  Result, IFail, ISuccess, MessageEnvelope, Matcher } from './types'
 import { matchResult } from './matchResult'
   
-const strToStrArray = (value: string | string[]) => Array.isArray(value) ? value: [ value ]
+const toArray = <T>(value: T | T[]): T[] => Array.isArray(value) ? value: [ value ]
 
 export class Success<T> implements ISuccess<T> {
   public value: T;
-  public messages: string[] = [];
+  public messages: MessageEnvelope[] = [];
 
-  constructor(value: T , messages: string[]) {
+  constructor(value: T, messages: MessageEnvelope[]) {
     this.value = value
     this.messages = messages
   }
 
-  static of<A>(value: A, messages: string | string[] = []): ISuccess<A> {
-    return new Success<A>(value, strToStrArray(messages));
+  static of<A>(value: A, messages: MessageEnvelope | MessageEnvelope[] = []): ISuccess<A> {
+    return new Success<A>(value, toArray(messages));
   }
 
   valueOrElse<A>(_: () => A): T {
@@ -29,24 +29,24 @@ export class Success<T> implements ISuccess<T> {
   }
 
   flatten(result: Result<T>): ISuccess<T> {
-    const messages = isSuccess(result) ? result.messages : result.value
-    return Success.of<T>(this.value, [ ...this.messages, ...messages ])
+    return Success.of<T>(this.value, [ ...this.messages, ...result.messages ])
   }
 
-  flatMap<A>(fn: (value: T, messages: string[]) => ISuccess<A>): ISuccess<A> {
+  flatMap<A>(fn: (value: T, messages: MessageEnvelope[]) => ISuccess<A>): ISuccess<A> {
     return fn(this.value, this.messages)
   }
 }
 
 export class Fail<T> implements IFail<T> {
-  public value: string[];
+  public value: undefined;
+  public messages: MessageEnvelope[];
 
-  constructor(value: string[]) {
-    this.value = value;
+  constructor(messages: MessageEnvelope[]) {
+    this.messages = messages;
   }
 
-  static of<A>(value: string | string[]): IFail<A> {
-    return new Fail<A>(strToStrArray(value))
+  static of<A>(messages: MessageEnvelope | MessageEnvelope[]): IFail<A> {
+    return new Fail<A>(toArray(messages))
   }
 
   valueOrElse<A>(other: () => A): A {
@@ -54,28 +54,28 @@ export class Fail<T> implements IFail<T> {
   }
 
   matchResult(matches: Matcher<T>): void {
-    matchResult<T>(Fail.of(this.value))(matches)
+    matchResult<T>(Fail.of(this.messages))(matches)
   }
 
   map<A>(_: (value: T) => A): IFail<A> {
-    return Fail.of<A>(this.value);
+    return Fail.of<A>(this.messages);
   }
 
   flatten(result: Result<T>): IFail<T> {
-    const messages = isSuccess(result) ? result.messages : result.value
-    return Fail.of([...this.value, ...messages])
+    return Fail.of([...this.messages, ...result.messages])
   }
 
-  flatMap<A>(fn: (value: string[]) => IFail<A>): IFail<A> {
-    return fn(this.value)
+  flatMap<A>(fn: (value: MessageEnvelope[]) => IFail<A>): IFail<A> {
+    return fn(this.messages)
   }
 }
 
-export const succeed = <T>(value: T, messages: string | string[] = []) => Success.of<T>(value, messages)
-export const fail = <T>(value: string | string[], ) => Fail.of<T>(value)
 
-export const isSuccess = <T>(result: any): result is ISuccess<T> => result instanceof Success;
-export const isFail = <T>(result: any): result is IFail<T> => result instanceof Fail
+export const succeed = <T>(value: T, messages: MessageEnvelope | MessageEnvelope[] = []) => Success.of<T>(value, messages)
+export const fail = <T>(messages: MessageEnvelope | MessageEnvelope[]) => Fail.of<T>(messages)
+
+export const isSuccess = <T>(result: any): result is Success<T> => result instanceof Success;
+export const isFail = <T>(result: any): result is Fail<T> => result instanceof Fail
 
 export default { 
   Success, 

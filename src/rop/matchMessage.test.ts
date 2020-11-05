@@ -12,7 +12,7 @@ describe('matchMessage', () => {
 
     describe('when a matching message is passed', () => {
         beforeEach(() => {
-            matchMessage(messages)(fail(['ErrorMessage']))
+            matchMessage(messages)(fail({ code: 'ErrorMessage' }))
         })
 
         it('should call function', () => {
@@ -22,7 +22,7 @@ describe('matchMessage', () => {
 
     describe('when a matching message is passed', () => {
         beforeEach(() => {
-            matchMessage(messages)(fail(['Error']))
+            matchMessage(messages)(fail({ code: 'Error' }))
         })
 
         it('should call function', () => {

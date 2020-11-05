@@ -3,6 +3,13 @@ export interface Matcher<T> {
     Fail: (errs: string[]) => void
 }
 
+export interface MessageEnvelope {
+    code: string
+    id?: string
+    message?: string
+    value?: any
+}
+
 interface IResult<A> {
     valueOrElse<B>(other: () => B): A | B
     map<B>(func: (value: A) => B): ISuccess<B> | IFail<B>
@@ -14,14 +21,15 @@ interface IResult<A> {
 export interface ISuccess<A>  extends IResult<A>{
     // constructor(value: A, messages: string[])
     value: A
-    messages: string[]
+    messages: MessageEnvelope[]
     // flatMap<B>(fn: (value: A, messagese: string[]) => ISuccess<B>): ISuccess<B>
     // valueOrElse<B>(other: () => B): A | B
     // matchResult(matches: Matcher<A>): void
 }
 export interface IFail<A> extends IResult<A> {
+    value: A | undefined;
     // constructor(value: string | string[]): void
-    value: string[]
+    messages: MessageEnvelope[]
     
     
     // flatMap<B>(fn: (value: string[]) => IFail<B>): IFail<B>
@@ -41,7 +49,7 @@ export type LiftR3 = <A>(result1: Result<A>) => <B>(result2: Result<B>) => <C>(r
 
 
 type Messages = {
-    [str: string]: () => void
+    [str: string]: (message: MessageEnvelope) => void
 }
 
 export type MatchMessage = (messages: Messages) => <A>(result: Result<A>) => void

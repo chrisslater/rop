@@ -1,19 +1,18 @@
-import { Result, IFail, ISuccess } from './types'
+import { Result, MessageEnvelope } from './types'
 
 import { either } from './either'
-import { fail, succeed } from './result'
 
-const failureFn = (value: string[]): string[] => {
+const failureFn = (value: MessageEnvelope[]): MessageEnvelope[] => {
     return value
 }
 
-type SuccessFn = <Out>(fn: <T>(value: T, messages: string[]) => Out) => <T>(value: T, messages: string[]) => Out 
+type SuccessFn = <In, Out>(fn: (value: In, messages: MessageEnvelope[]) => Out) => (value: In, messages: MessageEnvelope[]) => Out 
 const successFn: SuccessFn = (fn) => (value, messages) => { 
     return fn(value, messages)
 }
 
-export const s = <Out>(fn: <T>(value: T, messages: string[]) => Out) => <T>(result: Result<T>): Result<Out> => {
-    const f = successFn(fn)
+export const s = <In, Out>(fn: (value: In, messages: MessageEnvelope[]) => Out) => (result: Result<In>): Result<Out> => {
+    //const f = successFn(fn)
 
-    return either<Out>(failureFn)(f)(result)
+    return either<In, Out>(failureFn)(fn)(result)
 }

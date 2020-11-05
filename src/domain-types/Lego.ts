@@ -45,8 +45,8 @@ const lego = (id: Strings.String20) => (name: Strings.String20): Lego => ({
 })
 
 export const dtoToLego = (legoDto: LegoDto): Result<Lego> => {
-    const idOrError = Strings.string20(legoDto.id)
-    const nameOrError = Strings.string20(legoDto.name)
+    const idOrError = Strings.string20(legoDto.id, 'id')
+    const nameOrError = Strings.string20(legoDto.name, 'name')
 
     const final = liftR2(idOrError)(nameOrError)(lego)
 

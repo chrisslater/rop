@@ -1,5 +1,6 @@
-import { succeed, fail } from  './result'
+import { succeed } from  './result'
 import { either } from './either'
+import { mockFail } from './__mocks__'
 
 describe('either', () => {
     const successFn = jest.fn()
@@ -20,12 +21,11 @@ describe('either', () => {
     })
 
     it('should call fail branch if fail', () => {
-        failFn.mockReturnValue(['good times'])
-        const f = fail('blah')
-        const result = either(failFn)(successFn)(f)
+        failFn.mockReturnValue({ code: 'GoodTimes' })
+        const result = either(failFn)(successFn)(mockFail)
 
         expect(successFn).toBeCalledTimes(0)
         expect(failFn).toBeCalledTimes(1)
-        expect(result.value).toEqual(['good times'])
+        expect(result.messages[0]).toEqual({ code: 'GoodTimes' })
     })
 })

@@ -8,19 +8,18 @@ describe('successTree', () => {
 
     describe('when a fail is passed', () => {
         it('should not run the function', () => {
-            const mockFail = fail<string>('hello')
+            const mockFail = fail<string>({ code: 'hello' })
             const result = successTreeFn(mockFail)
 
             expect(mockFn).toBeCalledTimes(0)
             expect(result).toBeInstanceOf(Fail)
-            expect(result.value).toEqual(['hello'])
+            expect(result.messages[0]).toEqual({ code: 'hello' })
         })
     })
 
     describe('when a success is passed', () => {
         it('should run the function', () => {
-            const mockSuccess = succeed<string>('hello')
-            
+            const mockSuccess = succeed<string>('hello')            
             const result = successTreeFn(mockSuccess)
 
             expect(mockFn).toBeCalledTimes(1)
