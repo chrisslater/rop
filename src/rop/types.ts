@@ -1,13 +1,13 @@
-export interface Matcher<T> {
-    Success: (value: T) => void,
-    Fail: (errs: string[]) => void
-}
-
 export interface MessageEnvelope {
     code: string
     id?: string
     message?: string
     value?: any
+}
+
+export interface Matcher<T> {
+    Success: (value: T) => void,
+    Fail: (errs: MessageEnvelope[]) => void
 }
 
 interface IResult<A> {
