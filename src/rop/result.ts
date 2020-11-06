@@ -1,7 +1,8 @@
 import {  Result, IFail, ISuccess, MessageEnvelope, Matcher } from './types'
 import { matchResult } from './matchResult'
-  
+
 const toArray = <T>(value: T | T[]): T[] => Array.isArray(value) ? value: [ value ]
+
 
 export class Success<T> implements ISuccess<T> {
   public value: T;
@@ -35,6 +36,7 @@ export class Success<T> implements ISuccess<T> {
   flatMap<A>(fn: (value: T, messages: MessageEnvelope[]) => ISuccess<A>): ISuccess<A> {
     return fn(this.value, this.messages)
   }
+
 }
 
 export class Fail<T> implements IFail<T> {
@@ -77,11 +79,12 @@ export const fail = <T>(messages: MessageEnvelope | MessageEnvelope[]) => Fail.o
 export const isSuccess = <T>(result: any): result is Success<T> => result instanceof Success;
 export const isFail = <T>(result: any): result is Fail<T> => result instanceof Fail
 
-export default { 
-  Success, 
-  Fail, 
+
+export default {
+  Success,
+  Fail,
   succeed,
-  fail, 
-  isFail, 
-  isSuccess,  
+  fail,
+  isFail,
+  isSuccess,
 }

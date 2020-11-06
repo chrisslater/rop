@@ -1,6 +1,6 @@
-import { 
+import {
     Result,
-    succeed, 
+    succeed,
     fail,
 } from '../rop'
 
@@ -10,6 +10,8 @@ interface KindKeys {
 
 export const ErrorCodes = {
     Missing: 'Missing',
+    NotString: 'NotString',
+    Empty: 'Empty',
     MoreThan20: 'MoreThan20'
 }
 
@@ -25,13 +27,22 @@ export interface String20 {
 
 export const isString = (str: any): str is string => typeof str === 'string' || str instanceof String
 
-export const isString20 = (value?: any): value is String20 => 
-    value && 
-    value.kind && 
-    value.kind === KindKeys.String20 || 
+export const isString20 = (value?: any): value is String20 =>
+    value &&
+    value.kind &&
+    value.kind === KindKeys.String20 ||
     false
 
-export const string20 = (value?: any, id: string = 'String20'): Result<String20> => {
+export const string20 = (value: any, id: string = 'String20'): Result<String20> => {
+
+    if (value === undefined) {
+        return fail<String20>({
+            code: ErrorCodes.Missing,
+            id,
+            value,
+        })
+    }
+
     if (!isString(value)) {
         return fail<String20>({
             code: ErrorCodes.Missing,
@@ -40,11 +51,19 @@ export const string20 = (value?: any, id: string = 'String20'): Result<String20>
         })
     }
 
+    if (value.length === 0) {
+        return fail<String20>({
+            code: ErrorCodes.Empty,
+            id,
+            value,
+        })
+    }
+
     if (value.length > 20) {
-        return fail<String20>({ 
-            code: ErrorCodes.MoreThan20, 
-            id, 
-            value, 
+        return fail<String20>({
+            code: ErrorCodes.MoreThan20,
+            id,
+            value,
         })
     }
 

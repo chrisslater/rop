@@ -10,3 +10,5 @@ export * from './failTree'
 export * from './successTree'
 export * from './compute'
 export * from './s'
+
+export * as Experimental from './experimental'
