@@ -63,7 +63,7 @@ export type LiftR6 = <A>(result1: Result<A>) => <B>(result2: Result<B>) => <C>(r
 export type LiftR7 = <A>(r1: Result<A>) => <B>(r2: Result<B>) => <C>(r3: Result<C>) => <D>(r4: Result<D>) => <E>(r5: Result<E>) => <F>(r6: Result<F>) => <Out>(fun: Func6<Out, A, B, C, D, E, F>) => Result<Out>
 export type LiftR8 = <A>(r1: Result<A>) => <B>(r2: Result<B>) => <C>(r3: Result<C>) => <D>(r4: Result<D>) => <E>(r5: Result<E>) => <F>(r6: Result<F>) => <G>(r7: Result<G>) => <Out>(fun: Func7<Out, A, B, C, D, E, F, G>) => Result<Out>
 export type LiftR9 = <A>(r1: Result<A>) => <B>(r2: Result<B>) => <C>(r3: Result<C>) => <D>(r4: Result<D>) => <E>(r5: Result<E>) => <F>(r6: Result<F>) => <G>(r7: Result<G>) => <H>(r8: Result<H>) => <Out>(fun: Func8<Out, A, B, C, D, E, F, G, H>) => Result<Out>
-export type LiftR10 = <A>(r1: Result<A>) => <B>(r2: Result<B>) => <C>(r3: Result<C>) => <D>(r4: Result<D>) => <E>(r5: Result<E>) => <F>(r6: Result<F>) => <G>(r7: Result<G>) => <H>(r8: Result<H>) => <H>(r9: Result<H>) => <Out>(fun: Func9<Out, A, B, C, D, E, F, G, H, J>) => Result<Out>
+export type LiftR10 = <A>(r1: Result<A>) => <B>(r2: Result<B>) => <C>(r3: Result<C>) => <D>(r4: Result<D>) => <E>(r5: Result<E>) => <F>(r6: Result<F>) => <G>(r7: Result<G>) => <H>(r8: Result<H>) => <J>(r9: Result<J>) => <Out>(fun: Func9<Out, A, B, C, D, E, F, G, H, J>) => Result<Out>
 
 type Messages<ExtraMessages, ReturnValue> = ExtraMessages & {
     // [str: string]: (message: MessageEnvelope) => ReturnValue
