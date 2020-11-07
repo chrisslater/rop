@@ -18,7 +18,7 @@ describe('matchMessage', () => {
 
     describe('when a matching message is passed', () => {
         beforeEach(() => {
-            matchMessage(messages)(fail({ code: 'ErrorMessage' }))
+            matchMessage<string>(messages)(fail({ code: 'ErrorMessage' }))
         })
 
         it('should not call WithIdError function', () => {
