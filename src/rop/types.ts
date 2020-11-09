@@ -3,6 +3,7 @@ export interface MessageEnvelope {
     id?: string
     message?: string
     value?: any
+    properties?: { [str: string]: any }
 }
 
 export interface Matcher<T> {
@@ -13,6 +14,7 @@ export interface Matcher<T> {
 interface IResult<A> {
     valueOrElse<B>(other: () => B): A | B
     map<B>(func: (value: A) => B): ISuccess<B> | IFail<B>
+    matchResult(matches: Matcher<A>): void
 }
 
 export interface ISuccess<A>  extends IResult<A>{

@@ -56,6 +56,9 @@ export const createString = <Kind>({ kind, minLength = 0, maxLength }: { kind: K
             code: `MoreThan`,
             id,
             value,
+            properties: {
+                maxLength,
+            }
         })
     }
 

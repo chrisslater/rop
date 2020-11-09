@@ -3,7 +3,7 @@ import { isSuccess, isFail } from './result'
 
 type Messages<ReturnValue> =  {
     [str: string]: (input: { message: MessageEnvelope }) => ReturnValue
-    Default: () => ReturnValue
+    Default: (input: { message: MessageEnvelope }) => ReturnValue
 }
 
 export const matchMessage = <ReturnValue>(messages: Messages<ReturnValue>) => <A>(result: Result<A>): ReturnValue  => {
@@ -20,6 +20,6 @@ export const matchMessage = <ReturnValue>(messages: Messages<ReturnValue>) => <A
     } else if (isFail(result) && 'Fail' in messages) {
         return messages.Fail({ message })
     } else {
-        return messages.Default()
+        return messages.Default({ message })
     }
 }
