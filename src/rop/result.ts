@@ -28,15 +28,6 @@ export class Success<T> implements ISuccess<T> {
   map<A>(func: (value: T) => A): ISuccess<A> {
     return Success.of(func(this.value), this.messages)
   }
-
-  flatten(result: Result<T>): ISuccess<T> {
-    return Success.of<T>(this.value, [ ...this.messages, ...result.messages ])
-  }
-
-  flatMap<A>(fn: (value: T, messages: MessageEnvelope[]) => ISuccess<A>): ISuccess<A> {
-    return fn(this.value, this.messages)
-  }
-
 }
 
 export class Fail<T> implements IFail<T> {
@@ -62,23 +53,13 @@ export class Fail<T> implements IFail<T> {
   map<A>(_: (value: T) => A): IFail<A> {
     return Fail.of<A>(this.messages);
   }
-
-  flatten(result: Result<T>): IFail<T> {
-    return Fail.of([...this.messages, ...result.messages])
-  }
-
-  flatMap<A>(fn: (value: MessageEnvelope[]) => IFail<A>): IFail<A> {
-    return fn(this.messages)
-  }
 }
-
 
 export const succeed = <T>(value: T, messages: MessageEnvelope | MessageEnvelope[] = []) => Success.of<T>(value, messages)
 export const fail = <T>(messages: MessageEnvelope | MessageEnvelope[]) => Fail.of<T>(messages)
 
 export const isSuccess = <T>(result: any): result is Success<T> => result instanceof Success;
 export const isFail = <T>(result: any): result is Fail<T> => result instanceof Fail
-
 
 export default {
   Success,

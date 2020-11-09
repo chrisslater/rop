@@ -9,6 +9,6 @@ export * from './either'
 export * from './failTree'
 export * from './successTree'
 export * from './compute'
-export * from './s'
+export * from './whenSuccess'
 
 export * as Experimental from './experimental'

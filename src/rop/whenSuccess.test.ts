@@ -1,18 +1,18 @@
 import { fail, succeed, Success, Fail } from './result'
-import { s } from './s'
+import { whenSuccess } from './whenSuccess'
 
-describe.skip('s', () => {
-    const mockFn = jest.fn()
-    const successTreeFn = s(mockFn)
+describe('whenSuccess', () => {
+    const successTreeFn = whenSuccess(() => {
+        return 'foo'
+    })
 
     describe('when a fail is passed', () => {
         it('should not run the function', () => {
             const mockFail = fail<string>({ code: 'hello'})
             const result = successTreeFn(mockFail)
 
-            expect(mockFn).toBeCalledTimes(0)
             expect(result).toBeInstanceOf(Fail)
-            expect(result.value).toEqual([{ code: 'hello' }])
+            expect(result.messages).toEqual([{ code: 'hello' }])
         })
     })
 
@@ -21,9 +21,8 @@ describe.skip('s', () => {
             const mockSuccess = succeed<string>('hello')
             const result = successTreeFn(mockSuccess)
 
-            expect(mockFn).toBeCalledTimes(1)
             expect(result).toBeInstanceOf(Success)
-            expect(result.value).toEqual('bar')
+            expect(result.value).toEqual('foo')
         })
     })
 })

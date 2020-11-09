@@ -1,6 +1,6 @@
-import { 
+import {
     Result,
-    succeed, 
+    succeed,
     fail,
     liftR2,
     compute,
@@ -45,8 +45,8 @@ const lego = (id: Strings.String20) => (name: Strings.String20): Lego => ({
 })
 
 export const dtoToLego = (legoDto: LegoDto): Result<Lego> => {
-    const idOrError = Strings.string20(legoDto.id, 'id')
-    const nameOrError = Strings.string20(legoDto.name, 'name')
+    const idOrError = Strings.string20({ id: 'id' })(legoDto.id)
+    const nameOrError = Strings.string20({ id: 'name' })(legoDto.name)
 
     const final = liftR2(idOrError)(nameOrError)(lego)
 

@@ -26,12 +26,12 @@ describe('succeed', () => {
     })
   })
 
-  describe('flatten', () => {
-    it('should pass in the value', () => {
-      const res = result.flatten(succeed('goodbye'))
-      expect(res).toEqual(succeed('hello'))
-    })
-  })
+  // describe('flatten', () => {
+  //   it('should pass in the value', () => {
+  //     const res = result.flatten(succeed('goodbye'))
+  //     expect(res).toEqual(succeed('hello'))
+  //   })
+  // })
 });
 
 describe('fail', () => {
@@ -56,11 +56,11 @@ describe('fail', () => {
     })
   })
 
-  describe('flatten', () => {
-    it('should flatten in the value', () => {
-      const res = result.flatten(fail({ code: 'Fail2'}))
-      expect(res.messages).toEqual([failMessage, { code: 'Fail2' }])
-    })
-  })
+  // describe('flatten', () => {
+  //   it('should flatten in the value', () => {
+  //     const res = result.flatten(fail({ code: 'Fail2'}))
+  //     expect(res.messages).toEqual([failMessage, { code: 'Fail2' }])
+  //   })
+  // })
 });
 
