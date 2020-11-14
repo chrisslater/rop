@@ -9,8 +9,6 @@ describe('asyncWrap', () => {
                 return 'foo'
             }
 
-
-
             const meh = toAsync(test)(Promise.resolve(succeed('hello')))
         })
     })

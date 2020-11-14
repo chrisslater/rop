@@ -5,7 +5,7 @@ export const asyncTryCatch = (catcher: (error: any) => MessageEnvelope) => <I, O
     if (isSuccess<I>(result)) {
         try {
             const t = await tryer(result.value)
-            return succeed(t, result.messages)
+            return succeed<O>(t, result.messages)
         } catch (error) {
             return fail<O>(catcher(error))
         }

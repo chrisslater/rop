@@ -1,14 +1,13 @@
 import { MessageEnvelope, Result } from './types'
 import { isSuccess, isFail } from './result'
 
-type Messages<ReturnValue> =  {
+export type Messages<ReturnValue> =  {
     [str: string]: (input: { message: MessageEnvelope }) => ReturnValue
     Default: (input: { message: MessageEnvelope }) => ReturnValue
 }
 
 export const matchMessage = <ReturnValue>(messages: Messages<ReturnValue>) => <A>(result: Result<A>): ReturnValue  => {
     const message = result.messages && result.messages[0]
-    console.log('message', message)
     const identifier = message && `${message.id || ''}${message.code}` || ''
 
     if (identifier in messages) {

@@ -5,3 +5,5 @@ export const fnToResult = <I, O>(fn: (v: I) => Result<O>) => (result: Result<I>)
 	const r = result.map(fn)
 	return flatten(r)
 }
+
+export const toResult = fnToResult
